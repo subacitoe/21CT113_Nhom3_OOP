@@ -8,14 +8,22 @@ package QuanLyThucPham;
  *
  * @author MYPC
  */
-import static QuanLyThucPham.demo.sc;
+
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class Login extends JFrame implements ActionListener {
+
+public class Login extends JFrame implements ActionListener{
     static Scanner sc = new Scanner(System.in);
     JLabel l1, l2;
     JTextField tf1;
@@ -63,11 +71,44 @@ public class Login extends JFrame implements ActionListener {
         }
     }
     
-    public static void main(String[] args) {
-        new Login();    
+    public static void SaveDataTat(ArrayList<ThucAnTuoi> tat)
+    {
+       try {
+            FileOutputStream fos = new FileOutputStream("data.dat");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(tat);
+            oos.close();
+//            fos.close();
+            System.out.println("Luu tru du lieu thanh cong.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         
     }
     
-    public static void init()
+      public static void LoadDataTat()
+    {  
+         try {
+                     FileInputStream fis = new FileInputStream("data.dat");
+                     ObjectInputStream ois = new ObjectInputStream(fis);
+                     ArrayList<ThucAnTuoi> tatLoad = (ArrayList<ThucAnTuoi>) ois.readObject();
+                     ois.close();
+                     fis.close();
+
+                     // hiển thị kết quả
+                     for (int i = 0; i < tatLoad.size(); i++) {
+                         tatLoad.get(i).kiemTraHSD();
+                         System.out.println(tatLoad.get(i).toString());
+                         System.out.println();
+                     }
+                 } catch (IOException | ClassNotFoundException e) {
+                     e.printStackTrace();
+                 }
+    }
+    
+    
+   
+    public static void init() 
     {
         ArrayList<ThucAnTuoi> tat = new ArrayList<>();
         ArrayList<ThucAnDaiNgay> tadn = new ArrayList<>();    
@@ -77,30 +118,31 @@ public class Login extends JFrame implements ActionListener {
         String idCanTim;
         String idCanXoa;
       
-//            Database loai1
-            ThucAnTuoi demo = new ThucAnTuoi();
-            demo.setIdThucAn("A01");
-            demo.setTenThucAn("A01");
-            demo.setSoLuong(3);
-            demo.setGiaTien(100000.0);
-            demo.setNSX(2023,04,20);
-            demo.setHSD(2023,04,21);
-            demo.setIdKho("Kho Bien Hoa");
-            demo.setIdCtyNhap("Hai San Vung Tau");
-            tat.add(demo);
+////            Database loai1
+//            ThucAnTuoi demo = new ThucAnTuoi();
+//            demo.setIdThucAn("A01");
+//            demo.setTenThucAn("A01");
+//            demo.setSoLuong(3);
+//            demo.setGiaTien(100000.0);
+//            demo.setNSX(2023,04,20);
+//            demo.setHSD(2023,04,21);
+//            demo.setIdKho("Kho Bien Hoa");
+//            demo.setIdCtyNhap("Hai San Vung Tau");
+//            tat.add(demo);
 //            
-            ThucAnTuoi demo2 = new ThucAnTuoi();
-            demo2.setIdThucAn("A02");
-            demo2.setTenThucAn("A02");
-            demo2.setSoLuong(4);
-            demo2.setGiaTien(200000.0);
-            demo2.setNSX(2023,04,20);
-            demo2.setHSD(2023,04,25);
-            demo2.setIdKho("Kho Ha Noi");
-            demo2.setIdCtyNhap("Hai San Vung Tau");
-            tat.add(demo2);
-        
-        
+////            
+//            ThucAnTuoi demo2 = new ThucAnTuoi();
+//            demo2.setIdThucAn("A02");
+//            demo2.setTenThucAn("A02");
+//            demo2.setSoLuong(4);
+//            demo2.setGiaTien(200000.0);
+//            demo2.setNSX(2023,04,20);
+//            demo2.setHSD(2023,04,25);
+//            demo2.setIdKho("Kho Ha Noi");
+//            demo2.setIdCtyNhap("Hai San Vung Tau");
+//            tat.add(demo2);
+       
+
         while(state)
         {
             System.out.println("1. Nhap thong tin thuc pham!");
@@ -108,6 +150,7 @@ public class Login extends JFrame implements ActionListener {
             System.out.println("3. Tim thong tin thuc pham ID!");
             System.out.println("4. Xoa thong tin thuc pham theo ID!");
             System.out.println("Lua chon cua ban: "); _choice = sc.nextInt();
+            
             
             switch(_choice)
             {
@@ -134,6 +177,7 @@ public class Login extends JFrame implements ActionListener {
 //                        }
                     
                     }
+                    SaveDataTat(tat);
                     break;
                 case 2:
                     System.out.println("---Thong tin---");
@@ -165,6 +209,10 @@ public class Login extends JFrame implements ActionListener {
                             tat.remove(i);
                     }
                     break;
+                case 5:
+                    Banner();
+                LoadDataTat();
+                    
             }
         }
     }
@@ -173,5 +221,12 @@ public class Login extends JFrame implements ActionListener {
         System.out.printf("%15s | %15s | %15s | %15s | %15s | %15s | %15s | %25s| %25s |", "ID", "Ten Thuc An", "So Luong", "Gia Tien", "NSX" , "HSD", "Trang Thai", "Kho", "Cong Ty");
         System.out.println("");
     }
+     
+     
+     
+    public static void main(String[] args) {
+        new Login();        
+    }
+    
 }
 

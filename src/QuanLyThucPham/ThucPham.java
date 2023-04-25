@@ -8,11 +8,12 @@ package QuanLyThucPham;
  *
  * @author SUBACITO
  */
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
-public class ThucPham {
+public class ThucPham implements Serializable{
     static Scanner sc = new Scanner(System.in);
 //    Khai-bao
     private String tenThucAn;
@@ -114,10 +115,10 @@ public class ThucPham {
         String st = simpleDateFormat.format(today);
         if (this.getHsd().compareTo(today) < 0) {
 //            System.out.print("Hien tai: " + st + ", thuc pham da het han! ");
-            setTrangThai("Bruh");
+            setTrangThai("Bad!");
         } else {
 //            System.out.print("Hien tai: " + st + ", thuc pham van con han ");
-            setTrangThai("OK");
+            setTrangThai("Good!");
         }
 
     }

@@ -4,13 +4,16 @@
  */
 package QuanLyThucPham;
 
+import java.io.Serializable;
+
+
 
 
 /**
  *
  * @author SUBACITO
  */
-public class ThucAnTuoi extends ThucPham {
+public class ThucAnTuoi extends ThucPham implements Serializable {
     private String idKho;
     private String idCtyNhap; 
 
