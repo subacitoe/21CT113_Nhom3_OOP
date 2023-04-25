@@ -115,10 +115,10 @@ public class ThucPham implements Serializable{
         String st = simpleDateFormat.format(today);
         if (this.getHsd().compareTo(today) < 0) {
 //            System.out.print("Hien tai: " + st + ", thuc pham da het han! ");
-            setTrangThai("Bad!");
+            setTrangThai("Hết hạn");
         } else {
 //            System.out.print("Hien tai: " + st + ", thuc pham van con han ");
-            setTrangThai("Good!");
+            setTrangThai("Còn hạn");
         }
 
     }
@@ -140,7 +140,7 @@ public class ThucPham implements Serializable{
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String date1 = simpleDateFormat.format(nsx);
         String date2 = simpleDateFormat.format(hsd);
-        return String.format("%15s | %15s | %15s | %15s | %15s | %15s | %15s |", this.idThucAn, this.tenThucAn, this.soLuong, this.giaTien, date1, date2, this.trangThai);
+        return String.format("%15s %30s %30s %30s %30s %30s %30s ", this.idThucAn, this.tenThucAn, this.soLuong, this.giaTien, date1, date2, this.trangThai);
 //        return idThucAn + "\t\t" + tenThucAn +"\t\t"+ soLuong +"\t"+ giaTien +"\t"+ date1 +"\t"+ date2 + "\t" + trangThai;
     }
    

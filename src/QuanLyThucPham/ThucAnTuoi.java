@@ -56,7 +56,7 @@ public class ThucAnTuoi extends ThucPham implements Serializable {
    @Override
    public String toString()
    {
-       return super.toString() + String.format("%25s | %25s |", this.idKho, this.idCtyNhap);
+       return super.toString() + String.format("%30s %30s ", this.idKho, this.idCtyNhap);
    }
     
 }
