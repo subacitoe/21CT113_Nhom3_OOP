@@ -9,6 +9,8 @@ package QuanLyThucPham;
  * @author MYPC
  */
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.EOFException;
@@ -29,9 +31,12 @@ public class Login extends JFrame implements ActionListener{
     JTextField tf1;
     JPasswordField tf2;
     JButton btn1;
-    
     JFrame Menu;
     
+    static JTextArea mainView;
+    
+    
+   
     
     
     
@@ -114,13 +119,13 @@ public class Login extends JFrame implements ActionListener{
                      // hiển thị kết quả
                      for (int i = 0; i < tatLoad.size(); i++) {
                          tatLoad.get(i).kiemTraHSD();
-                         System.out.println(tatLoad.get(i).toString());
-                         System.out.println();
+                        mainView.append(tatLoad.get(i).toString() +"\n");
                      }
                  } catch (IOException | ClassNotFoundException e) {
                      e.printStackTrace();
                  }
     }
+    
     
       public static void Menu()
       {
@@ -135,46 +140,67 @@ public class Login extends JFrame implements ActionListener{
         
                         
 //            Database loai1
-            ThucAnTuoi demo = new ThucAnTuoi();
-            demo.setIdThucAn("A01");
-            demo.setTenThucAn("A01");
-            demo.setSoLuong(3);
-            demo.setGiaTien(100000.0);
-            demo.setNSX(2023,04,20);
-            demo.setHSD(2023,04,21);
-            demo.setIdKho("Kho Bien Hoa");
-            demo.setIdCtyNhap("Hai San Vung Tau");
-            tat.add(demo);
-            
+//            ThucAnTuoi demo = new ThucAnTuoi();
+//            demo.setIdThucAn("A01");
+//            demo.setTenThucAn("A01");
+//            demo.setSoLuong(3);
+//            demo.setGiaTien(100000.0);
+//            demo.setNSX(2023,04,20);
+//            demo.setHSD(2023,04,21);
+//            demo.setIdKho("Kho Bien Hoa");
+//            demo.setIdCtyNhap("Hai San Vung Tau");
+//            tat.add(demo);
 //            
-            ThucAnTuoi demo2 = new ThucAnTuoi();
-            demo2.setIdThucAn("A02");
-            demo2.setTenThucAn("A02");
-            demo2.setSoLuong(4);
-            demo2.setGiaTien(200000.0);
-            demo2.setNSX(2023,04,20);
-            demo2.setHSD(2023,04,25);
-            demo2.setIdKho("Kho Ha Noi");
-            demo2.setIdCtyNhap("Hai San Vung Tau");
-            tat.add(demo2);
-        JFrame menu = new JFrame();
-
-        JButton b = new JButton("Xem");
-        b.setBounds(100, 100, 100, 40);
+////            
+//            ThucAnTuoi demo2 = new ThucAnTuoi();
+//            demo2.setIdThucAn("A02");
+//            demo2.setTenThucAn("A02");
+//            demo2.setSoLuong(4);
+//            demo2.setGiaTien(200000.0);
+//            demo2.setNSX(2023,04,20);
+//            demo2.setHSD(2023,04,25);
+//            demo2.setIdKho("Kho Ha Noi");
+//            demo2.setIdCtyNhap("Hai San Vung Tau");
+//            tat.add(demo2);
+//            SaveDataTat(tat);
+            
+        JFrame menu = new JFrame("Quản Lý Thực Phẩm");
+        
+        JButton b = new JButton("Thức ăn tươi");
+        b.setBounds(1100, 0, 150, 40);
+        
+        JButton c = new JButton("Thức ăn dài ngày");
+        c.setBounds(1290, 0, 150, 40);
+        
+        JButton addTatBtn = new JButton("Thêm");
+        addTatBtn.setBounds(1100, 50, 150, 40);
+        
+        JButton addTadnBtn = new JButton("Thêm");
+        addTadnBtn.setBounds(1290, 50, 150, 40);
+        
        
         
         JLabel title = new JLabel("SUBACITO");
-        title.setBounds(100, 50, 100, 30);
+//        title.setBounds(100, 50, 100, 30);
         
-        JTextArea mainView = new JTextArea(20, 20);
+        mainView = new JTextArea("", 5, 50);
+        JScrollPane scrollPane = new JScrollPane(mainView);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(1080, 600));
         mainView.setEditable(false);
-        mainView.setBounds(100, 150, 1200, 500);
+//        mainView.setBounds(1000, 150, 1050, 30);
         mainView.append(Banner()+"\n");
-        
+        mainView.setLineWrap(true);
+        mainView.setWrapStyleWord(true);
         menu.add(title);
         menu.add(b);
-        menu.add(mainView);
+        menu.add(c);
+        menu.add(addTatBtn);
+        menu.add(addTadnBtn);
+        menu.add(scrollPane);
+        menu.pack();
 
+        
         menu.setSize(1500, 780);
         menu.setLayout(null);  
         menu.setVisible(true);  
@@ -182,18 +208,33 @@ public class Login extends JFrame implements ActionListener{
         menu.setLocationRelativeTo(null);
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-//          System.out.println(tat.get(1).toString());
+       
         
+        
+       
+        
+// Nút thêm TAT
+            addTatBtn.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  MenuAddTAT();
+              }
+          });
+// Nút thêm TADN
+            addTadnBtn.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  MenuAddTADN();
+              }
+          });
+            
+// Nút xem TAT
           b.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent e) {
                   mainView.setText(null);
-                  mainView.append(Banner()+"\n");
-                  for(int i = 0; i < tat.size(); i++)
-                  {
-                    tat.get(i).kiemTraHSD();
-                    mainView.append(tat.get(i).toString() + "\n");
-                  }
+                  mainView.append(Banner() + "\n");
+                  LoadDataTat();
               }
           });
         
@@ -265,27 +306,178 @@ public class Login extends JFrame implements ActionListener{
 //                    break;
 //                case 5:
 //                    Banner();
-//                LoadDataTat();
+////                LoadDataTat();
 //                    
 //            }
 //        }
       }
-    
+    public static void MenuAddTAT()
+    {
+        int VectorX = 10*30;
+        int VectorY = 60;
+        JFrame MenuAddTat = new JFrame("Thêm thức ăn tươi");
+        JButton ConfirmInserted = new JButton("Xác nhận");
+        ConfirmInserted.setBounds(VectorX/2, VectorY * 9, 250, 30);
+        MenuAddTat.add(ConfirmInserted);
+        
+        JLabel LabelIdTAT = new JLabel("ID: ");
+        LabelIdTAT.setBounds(VectorX/2, VectorY * 1, 250, 30);
+        MenuAddTat.add(LabelIdTAT);
+        
+        JLabel LabelNameTAT = new JLabel("Tên thực phẩm: ");
+        LabelNameTAT.setBounds(VectorX/2, VectorY * 2, 250, 30);
+        MenuAddTat.add(LabelNameTAT);
+        
+        JLabel LabelSlTAT = new JLabel("Số lượng: ");
+        LabelSlTAT.setBounds(VectorX/2, VectorY * 3, 250, 30);
+        MenuAddTat.add(LabelSlTAT);
+        
+        JLabel LabelCostTAT = new JLabel("Giá: ");
+        LabelCostTAT.setBounds(VectorX/2, VectorY * 4, 250, 30);
+        MenuAddTat.add(LabelCostTAT);
+        
+        JLabel LabelNsxTAT = new JLabel("Ngày sản xuất: ");
+        LabelNsxTAT.setBounds(VectorX/2, VectorY * 5, 250, 30);
+        MenuAddTat.add(LabelNsxTAT);
+        
+        JLabel LabelHsdTAT = new JLabel("Hạn sử dụng: ");
+        LabelHsdTAT.setBounds(VectorX/2, VectorY * 6, 250, 30);
+        MenuAddTat.add(LabelHsdTAT);
+        
+        JLabel LabelKhoTAT = new JLabel("Kho: ");
+        LabelKhoTAT.setBounds(VectorX/2, VectorY * 7, 250, 30);
+        MenuAddTat.add(LabelKhoTAT);
+        
+        JLabel LabelCtyTAT = new JLabel("Công ty: ");
+        LabelCtyTAT.setBounds(VectorX/2, VectorY * 8, 250, 30);
+        MenuAddTat.add(LabelCtyTAT);
+// ========================================================================
+        
+        JTextField inputIdTAT = new JTextField();
+        inputIdTAT.setBounds(VectorX, VectorY * 1, 250, 30);
+        MenuAddTat.add(inputIdTAT);
+        
+        JTextField inputNameTAT = new JTextField();
+        inputNameTAT.setBounds(VectorX, VectorY * 2, 250, 30);
+        MenuAddTat.add(inputNameTAT);
+        
+        JTextField inputSlTAT = new JTextField();
+        inputSlTAT.setBounds(VectorX, VectorY * 3, 250, 30);
+        MenuAddTat.add(inputSlTAT);
+        
+        JTextField inputCostTAT = new JTextField();
+        inputCostTAT.setBounds(VectorX, VectorY * 4, 250, 30);
+        MenuAddTat.add(inputCostTAT);
+        
+        JTextField inputNsxTAT = new JTextField();
+        inputNsxTAT.setBounds(VectorX, VectorY * 5, 250, 30);
+        MenuAddTat.add(inputNsxTAT);
+        
+        JTextField inputHsdTAT = new JTextField();
+        inputHsdTAT.setBounds(VectorX, VectorY * 6, 250, 30);
+        MenuAddTat.add(inputHsdTAT);
+        
+        JTextField inputKhoTAT = new JTextField();
+        inputKhoTAT.setBounds(VectorX, VectorY * 7, 250, 30);
+        MenuAddTat.add(inputKhoTAT);
+        
+        JTextField inputCtyTAT = new JTextField();
+        inputCtyTAT.setBounds(VectorX, VectorY * 8, 250, 30);
+        MenuAddTat.add(inputCtyTAT);
+        
+        
+        MenuAddTat.setSize(600, 650);
+        MenuAddTat.setLayout(null);  
+        MenuAddTat.setVisible(true);  
+        MenuAddTat.setResizable(false);
+        MenuAddTat.setLocationRelativeTo(null);
+        
+//         
+            ConfirmInserted.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  ArrayList<ThucAnTuoi> tatInserted = new ArrayList<>();
+                  ThucAnTuoi Tat = new ThucAnTuoi();
+                  
+                  Tat.setIdThucAn("A03");
+                  Tat.setTenThucAn("Cua Hoang De");
+                  Tat.setSoLuong(10);
+                  Tat.setGiaTien(50000.0);
+                  Tat.setNSX(2023,04,25);
+                  Tat.setHSD(2024,04,25);
+                  Tat.setIdKho("A09271");
+                  Tat.setIdCtyNhap("VINAFOOD");
+                  tatInserted.add(Tat);
+                  
+//                  SaveDataTat( tatInserted);
+//                  try {
+//                      FileOutputStream fos = new FileOutputStream("data.dat");
+//                      ObjectOutputStream oos = new ObjectOutputStream(fos);
+//                      oos.writeObject(new tatInserted);
+//                      oos.close();
+//                      System.out.println("Luu tru du lieu thanh cong.");
+//                  } catch (IOException y) {
+//                      y.printStackTrace();
+//                  }
+                  MenuAddTat.dispose();
+              }
+          });
+    }
+     public static void MenuAddTADN()
+    {
+        int VectorX = 10*30;
+        int VectorY = 60;
+        JFrame MenuAddTADN = new JFrame("Thêm thức dài ngày");
+        
+        JTextField inputIdTADN = new JTextField();
+        inputIdTADN.setBounds(VectorX, VectorY * 1, 250, 30);
+        MenuAddTADN.add(inputIdTADN);
+        
+        JTextField inputNameTDN = new JTextField();
+        inputNameTDN.setBounds(VectorX, VectorY * 2, 250, 30);
+        MenuAddTADN.add(inputNameTDN);
+        
+        JTextField inputSlTADN = new JTextField();
+        inputSlTADN.setBounds(VectorX, VectorY * 3, 250, 30);
+        MenuAddTADN.add(inputSlTADN);
+        
+        JTextField inputCostTADN = new JTextField();
+        inputCostTADN.setBounds(VectorX, VectorY * 4, 250, 30);
+        MenuAddTADN.add(inputCostTADN);
+        
+        JTextField inputNsxTADN = new JTextField();
+        inputNsxTADN.setBounds(VectorX, VectorY * 5, 250, 30);
+        MenuAddTADN.add(inputNsxTADN);
+        
+        JTextField inputHsdTADN = new JTextField();
+        inputHsdTADN.setBounds(VectorX, VectorY * 6, 250, 30);
+        MenuAddTADN.add(inputHsdTADN);
+        
+        JTextField inputKhoTADN = new JTextField();
+        inputKhoTADN.setBounds(VectorX, VectorY * 7, 250, 30);
+        MenuAddTADN.add(inputKhoTADN);
+        
+        JTextField inputCtyTADN = new JTextField();
+        inputCtyTADN.setBounds(VectorX, VectorY * 8, 250, 30);
+        MenuAddTADN.add(inputCtyTADN);
+        
+        MenuAddTADN.setSize(600, 600);
+        MenuAddTADN.setLayout(null);  
+        MenuAddTADN.setVisible(true);  
+        MenuAddTADN.setResizable(false);
+        MenuAddTADN.setLocationRelativeTo(null);
+        
+    }
    
     public static void init() 
     {
-       Menu();        
+       Menu();    
     }
     
      private static String Banner() {
-        return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Ten Thuc An", "So Luong", "Gia Tien", "NSX" , "HSD", "Trang Thai", "Kho", "Cong Ty");
+        return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Tên Thức Ăn", "Số Lượnng", "Giá Tiền", "NSX" , "HSD", "Trạng Thái", "Kho", "Công Ty");
     }
      
-     
-     
-    public static void main(String[] args) {
-        new Login();    
-    }
     
 }
 
