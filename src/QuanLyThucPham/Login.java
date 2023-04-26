@@ -32,6 +32,8 @@ public class Login extends JFrame implements ActionListener{
     JPasswordField tf2;
     JButton btn1;
     JFrame Menu;
+    static ArrayList<ThucAnTuoi> tat = new ArrayList<>();
+    static ArrayList<ThucAnDaiNgay> tadn = new ArrayList<>();   
     
     static JTextArea mainView;
     
@@ -129,9 +131,6 @@ public class Login extends JFrame implements ActionListener{
     
       public static void Menu()
       {
-
-        ArrayList<ThucAnTuoi> tat = new ArrayList<>();
-        ArrayList<ThucAnDaiNgay> tadn = new ArrayList<>();    
         int n = 0;
         int _choice = 0;
         boolean state = true;
@@ -368,15 +367,31 @@ public class Login extends JFrame implements ActionListener{
         JTextField inputCostTAT = new JTextField();
         inputCostTAT.setBounds(VectorX, VectorY * 4, 250, 30);
         MenuAddTat.add(inputCostTAT);
+//        ===============================================================================================       
+        JTextField inputNsxTATDay = new JTextField();
+        inputNsxTATDay.setBounds(VectorX, VectorY * 5, 50, 30);
+        MenuAddTat.add(inputNsxTATDay);
         
-        JTextField inputNsxTAT = new JTextField();
-        inputNsxTAT.setBounds(VectorX, VectorY * 5, 250, 30);
-        MenuAddTat.add(inputNsxTAT);
+        JTextField inputNsxTATMonth = new JTextField();
+        inputNsxTATMonth.setBounds(VectorX + 100, VectorY * 5, 50, 30);
+        MenuAddTat.add(inputNsxTATMonth);
         
-        JTextField inputHsdTAT = new JTextField();
-        inputHsdTAT.setBounds(VectorX, VectorY * 6, 250, 30);
-        MenuAddTat.add(inputHsdTAT);
+        JTextField inputNsxTATYear = new JTextField();
+        inputNsxTATYear.setBounds(VectorX + 200, VectorY * 5, 50, 30);
+        MenuAddTat.add(inputNsxTATYear);
+//        ===============================================================================================      
+        JTextField inputHsdTATDay = new JTextField();
+        inputHsdTATDay.setBounds(VectorX, VectorY * 6, 50, 30);
+        MenuAddTat.add(inputHsdTATDay);
         
+        JTextField inputHsdTATMonth = new JTextField();
+        inputHsdTATMonth.setBounds(VectorX + 100, VectorY * 6, 50, 30);
+        MenuAddTat.add(inputHsdTATMonth);
+        
+        JTextField inputHsdTATYear = new JTextField();
+        inputHsdTATYear.setBounds(VectorX + 200, VectorY * 6, 50, 30);
+        MenuAddTat.add(inputHsdTATYear);
+//        ===============================================================================================             
         JTextField inputKhoTAT = new JTextField();
         inputKhoTAT.setBounds(VectorX, VectorY * 7, 250, 30);
         MenuAddTat.add(inputKhoTAT);
@@ -392,24 +407,41 @@ public class Login extends JFrame implements ActionListener{
         MenuAddTat.setResizable(false);
         MenuAddTat.setLocationRelativeTo(null);
         
+        
 //         
             ConfirmInserted.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent e) {
-                  ArrayList<ThucAnTuoi> tatInserted = new ArrayList<>();
+                  String StringInputIdTAT = inputIdTAT.getText();
+                  String StringInputNameTAT = inputNameTAT.getText();
+                  int NumberInputSlTAT = Integer.parseInt(inputSlTAT.getText());
+                  double NumerInputCostTAT = Double.parseDouble(inputCostTAT.getText());
+                  
+                  int InputNsxTATDay = Integer.parseInt(inputNsxTATDay.getText());
+                  int InputNsxTATMonth = Integer.parseInt(inputNsxTATMonth.getText());
+                  int InputNsxTATYear = Integer.parseInt(inputNsxTATYear.getText());
+                  
+                  int InputHsdTATDay = Integer.parseInt(inputHsdTATDay.getText());
+                  int InputHsdTATMonth = Integer.parseInt(inputHsdTATMonth.getText());
+                  int InputHsdTATYear = Integer.parseInt(inputHsdTATYear.getText());
+                  
+                  String StringInputKhoTAT = inputKhoTAT.getText();
+                  String StringInputCtyTAT = inputCtyTAT.getText();
+                  
+   
+                  
                   ThucAnTuoi Tat = new ThucAnTuoi();
+                  Tat.setIdThucAn(StringInputIdTAT);
+                  Tat.setTenThucAn(StringInputNameTAT);
+                  Tat.setSoLuong(NumberInputSlTAT);
+                  Tat.setGiaTien(NumerInputCostTAT);
+                  Tat.setNSX(InputNsxTATYear,InputNsxTATMonth,InputNsxTATDay);
+                  Tat.setHSD(InputHsdTATYear,InputHsdTATMonth,InputHsdTATDay);
+                  Tat.setIdKho(StringInputKhoTAT);
+                  Tat.setIdCtyNhap(StringInputCtyTAT);
+                  tat.add(Tat);
                   
-                  Tat.setIdThucAn("A03");
-                  Tat.setTenThucAn("Cua Hoang De");
-                  Tat.setSoLuong(10);
-                  Tat.setGiaTien(50000.0);
-                  Tat.setNSX(2023,04,25);
-                  Tat.setHSD(2024,04,25);
-                  Tat.setIdKho("A09271");
-                  Tat.setIdCtyNhap("VINAFOOD");
-                  tatInserted.add(Tat);
-                  
-//                  SaveDataTat( tatInserted);
+                  SaveDataTat(tat);
 //                  try {
 //                      FileOutputStream fos = new FileOutputStream("data.dat");
 //                      ObjectOutputStream oos = new ObjectOutputStream(fos);
