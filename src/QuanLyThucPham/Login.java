@@ -14,6 +14,7 @@ import java.awt.FlowLayout;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,14 +27,15 @@ import java.util.Scanner;
 
 
 public class Login extends JFrame implements ActionListener{
+    static ArrayList<ThucAnTuoi> tat = new ArrayList<>();
+    static ArrayList<ThucAnDaiNgay> tadn = new ArrayList<>();   
     static Scanner sc = new Scanner(System.in);
     JLabel l1, l2;
     JTextField tf1;
     JPasswordField tf2;
     JButton btn1;
     JFrame Menu;
-    static ArrayList<ThucAnTuoi> tat = new ArrayList<>();
-    static ArrayList<ThucAnDaiNgay> tadn = new ArrayList<>();   
+    
     
     static JTextArea mainView;
     
@@ -93,40 +95,88 @@ public class Login extends JFrame implements ActionListener{
             JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
         }
     }
-    
-    public static void SaveDataTat(ArrayList<ThucAnTuoi> tat)
-    {
-       try {
-            FileOutputStream fos = new FileOutputStream("data.dat");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(tat);
-            oos.close();
-//            fos.close();
-            System.out.println("Luu tru du lieu thanh cong.");
+     public static boolean hasObject(File f) {
+        // thu doc xem co object nao chua
+        FileInputStream fi;
+        boolean check = true;
+        try {
+            fi = new FileInputStream(f);
+            ObjectInputStream inStream = new ObjectInputStream(fi);
+            if (inStream.readObject() == null) {
+                check = false;
+            }
+            inStream.close();
+ 
+        } catch (FileNotFoundException e) {
+            check = false;
         } catch (IOException e) {
+            check = false;
+        } catch (ClassNotFoundException e) {
+            check = false;
             e.printStackTrace();
+        }
+        return check;
+    }
+    
+    public static void Write(ArrayList<ThucAnTuoi> tat)
+    {
+         try {
+ 
+            File f = new File("data.dat");
+            FileOutputStream fo;
+            ObjectOutputStream oStream = null;
+ 
+            // neu file chu ton tai thi tao file va ghi binh thuong
+            if (!f.exists()) {
+                fo = new FileOutputStream(f);
+                oStream = new ObjectOutputStream(fo);
+            } else { // neu file ton tai
+ 
+                // neu chua co thi ghi binh thuong
+                if (!hasObject(f)) {
+                    fo = new FileOutputStream(f);
+                    oStream = new ObjectOutputStream(fo);
+                } else { // neu co roi thi ghi them vao
+ 
+                    fo = new FileOutputStream(f, true);
+ 
+                    oStream = new ObjectOutputStream(fo) {
+                        protected void writeStreamHeader() throws IOException {
+                            reset();
+                        }
+                    };
+                }
+            }
+            System.out.println("Them du lieu thanh cong");
+            System.out.println(tat);
+            
+            oStream.writeObject(tat);
+            oStream.close();
+ 
+        } catch (IOException e) {
         }
          
     }
     
-      public static void LoadDataTat()
-    {  
-         try {
-                     FileInputStream fis = new FileInputStream("data.dat");
-                     ObjectInputStream ois = new ObjectInputStream(fis);
-                     ArrayList<ThucAnTuoi> tatLoad = (ArrayList<ThucAnTuoi>) ois.readObject();
-                     ois.close();
-                     fis.close();
+        public static void Read() {
+            try {
+                File f = new File("data.dat");
+                FileInputStream fis = new FileInputStream(f);
+                ObjectInputStream inStream = new ObjectInputStream(fis);
+                
+                while (true) {
+                    int i = 0;
+                    ArrayList<ThucAnTuoi> tatLoaded = (ArrayList<ThucAnTuoi>) inStream.readObject();
 
-                     // hiển thị kết quả
-                     for (int i = 0; i < tatLoad.size(); i++) {
-                         tatLoad.get(i).kiemTraHSD();
-                        mainView.append(tatLoad.get(i).toString() +"\n");
-                     }
-                 } catch (IOException | ClassNotFoundException e) {
-                     e.printStackTrace();
-                 }
+                    tatLoaded.get(i).kiemTraHSD();
+                    mainView.append(tatLoaded.get(i).toString() +"\n");
+                    i++;
+                }
+            } catch (ClassNotFoundException | IOException e) {
+            }
     }
+    
+   
     
     
       public static void Menu()
@@ -137,31 +187,7 @@ public class Login extends JFrame implements ActionListener{
         String idCanTim;
         String idCanXoa;
         
-                        
-//            Database loai1
-//            ThucAnTuoi demo = new ThucAnTuoi();
-//            demo.setIdThucAn("A01");
-//            demo.setTenThucAn("A01");
-//            demo.setSoLuong(3);
-//            demo.setGiaTien(100000.0);
-//            demo.setNSX(2023,04,20);
-//            demo.setHSD(2023,04,21);
-//            demo.setIdKho("Kho Bien Hoa");
-//            demo.setIdCtyNhap("Hai San Vung Tau");
-//            tat.add(demo);
-//            
-////            
-//            ThucAnTuoi demo2 = new ThucAnTuoi();
-//            demo2.setIdThucAn("A02");
-//            demo2.setTenThucAn("A02");
-//            demo2.setSoLuong(4);
-//            demo2.setGiaTien(200000.0);
-//            demo2.setNSX(2023,04,20);
-//            demo2.setHSD(2023,04,25);
-//            demo2.setIdKho("Kho Ha Noi");
-//            demo2.setIdCtyNhap("Hai San Vung Tau");
-//            tat.add(demo2);
-//            SaveDataTat(tat);
+                       
             
         JFrame menu = new JFrame("Quản Lý Thực Phẩm");
         
@@ -233,7 +259,7 @@ public class Login extends JFrame implements ActionListener{
               public void actionPerformed(ActionEvent e) {
                   mainView.setText(null);
                   mainView.append(Banner() + "\n");
-                  LoadDataTat();
+                  Read();
               }
           });
         
@@ -440,17 +466,8 @@ public class Login extends JFrame implements ActionListener{
                   Tat.setIdKho(StringInputKhoTAT);
                   Tat.setIdCtyNhap(StringInputCtyTAT);
                   tat.add(Tat);
-                  
-                  SaveDataTat(tat);
-//                  try {
-//                      FileOutputStream fos = new FileOutputStream("data.dat");
-//                      ObjectOutputStream oos = new ObjectOutputStream(fos);
-//                      oos.writeObject(new tatInserted);
-//                      oos.close();
-//                      System.out.println("Luu tru du lieu thanh cong.");
-//                  } catch (IOException y) {
-//                      y.printStackTrace();
-//                  }
+
+                  Write(tat);
                   MenuAddTat.dispose();
               }
           });
@@ -503,7 +520,8 @@ public class Login extends JFrame implements ActionListener{
    
     public static void init() 
     {
-       Menu();    
+       Menu();
+       Read();
     }
     
      private static String Banner() {
