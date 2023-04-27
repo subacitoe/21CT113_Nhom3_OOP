@@ -13,14 +13,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -45,6 +37,7 @@ public class Login extends JFrame implements ActionListener{
     
     
     Login() {
+
 //        banner Right
             int setDefaultRightX = 420;
             int setDefaultRightY = 145;
@@ -95,89 +88,23 @@ public class Login extends JFrame implements ActionListener{
             JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
         }
     }
-     public static boolean hasObject(File f) {
-        // thu doc xem co object nao chua
-        FileInputStream fi;
-        boolean check = true;
-        try {
-            fi = new FileInputStream(f);
-            ObjectInputStream inStream = new ObjectInputStream(fi);
-            if (inStream.readObject() == null) {
-                check = false;
-            }
-            inStream.close();
- 
-        } catch (FileNotFoundException e) {
-            check = false;
-        } catch (IOException e) {
-            check = false;
-        } catch (ClassNotFoundException e) {
-            check = false;
-            e.printStackTrace();
-        }
-        return check;
-    }
-    
-    public static void Write(ArrayList<ThucAnTuoi> tat)
-    {
-         try {
- 
-            File f = new File("data.dat");
-            FileOutputStream fo;
-            ObjectOutputStream oStream = null;
- 
-            // neu file chu ton tai thi tao file va ghi binh thuong
-            if (!f.exists()) {
-                fo = new FileOutputStream(f);
-                oStream = new ObjectOutputStream(fo);
-            } else { // neu file ton tai
- 
-                // neu chua co thi ghi binh thuong
-                if (!hasObject(f)) {
-                    fo = new FileOutputStream(f);
-                    oStream = new ObjectOutputStream(fo);
-                } else { // neu co roi thi ghi them vao
- 
-                    fo = new FileOutputStream(f, true);
- 
-                    oStream = new ObjectOutputStream(fo) {
-                        protected void writeStreamHeader() throws IOException {
-                            reset();
-                        }
-                    };
-                }
-            }
-            System.out.println("Them du lieu thanh cong");
-            System.out.println(tat);
-            
-            oStream.writeObject(tat);
-            oStream.close();
- 
-        } catch (IOException e) {
-        }
-         
-    }
-    
-        public static void Read() {
-            try {
-                File f = new File("data.dat");
-                FileInputStream fis = new FileInputStream(f);
-                ObjectInputStream inStream = new ObjectInputStream(fis);
-                
-                while (true) {
-                    int i = 0;
-                    ArrayList<ThucAnTuoi> tatLoaded = (ArrayList<ThucAnTuoi>) inStream.readObject();
 
-                    tatLoaded.get(i).kiemTraHSD();
-                    mainView.append(tatLoaded.get(i).toString() +"\n");
-                    i++;
-                }
-            } catch (ClassNotFoundException | IOException e) {
-            }
-    }
-    
+ 
+      public static void ReadTat() {
+        mainView.setText(null);
+        mainView.append(Banner() + "\n");
+          for(int i = 0; i < tat.size(); i++)
+          {
+             tat.get(i).kiemTraHSD();
+             mainView.append(tat.get(i).toString() + "\n");
+          }
+        }
+      
+       
    
+      
     
+ 
     
       public static void Menu()
       {
@@ -199,6 +126,10 @@ public class Login extends JFrame implements ActionListener{
         
         JButton addTatBtn = new JButton("Thêm");
         addTatBtn.setBounds(1100, 50, 150, 40);
+        
+         JButton DeleteTatBtn = new JButton("Xoa");
+        DeleteTatBtn.setBounds(1100, 100, 150, 40);
+        menu.add(DeleteTatBtn);
         
         JButton addTadnBtn = new JButton("Thêm");
         addTadnBtn.setBounds(1290, 50, 150, 40);
@@ -236,7 +167,21 @@ public class Login extends JFrame implements ActionListener{
        
         
         
-       
+          DeleteTatBtn.addActionListener(new ActionListener() {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                     for(int i = 0; i < tat.size(); i++)
+                     {
+                          if("A01".equals(tat.get(i).getIdThucAn()))
+                          {
+                              tat.remove(i);
+                          }
+ 
+                      }
+                  }
+
+              
+          });
         
 // Nút thêm TAT
             addTatBtn.addActionListener(new ActionListener() {
@@ -257,84 +202,10 @@ public class Login extends JFrame implements ActionListener{
           b.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent e) {
-                  mainView.setText(null);
-                  mainView.append(Banner() + "\n");
-                  Read();
+                  ReadTat();
               }
           });
-        
-//        while(state)
-//        {
-//            System.out.println("1. Nhap thong tin thuc pham!");
-//            System.out.println("2. Xuat thong tin thuc pham!");
-//            System.out.println("3. Tim thong tin thuc pham ID!");
-//            System.out.println("4. Xoa thong tin thuc pham theo ID!");
-//            System.out.println("Lua chon cua ban: "); _choice = sc.nextInt();
-//            
-//            
-//            switch(_choice)
-//            {
-//                case 1:
-//                    int _loaiTP = 0;
-//                    System.out.println("Nhap so luong thuc pham: "); n = sc.nextInt();
-//                    for(int i = 0; i < n; i++)
-//                    {
-//                        System.out.println("Thong tin thuc pham thu " + (i+1));
-//                        System.out.println("1. Thuc an tuoi!");
-//                        System.out.println("2. Thuc an dai ngay!");
-//                        _loaiTP = sc.nextInt();
-//                         if(_loaiTP == 1)
-//                        {
-//                            ThucAnTuoi Tat = new ThucAnTuoi();
-//                            Tat.input();
-//                            tat.add(Tat);
-//                        }
-////                         if(_loaiTP == 2)
-////                        {
-////                            ThucAnDaiNgay Tadn = new ThucAnDaiNgay();
-////                            Tadn.input();
-////                            tadn.add(Tadn);
-////                        }
-//                    
-//                    }
-//                    SaveDataTat(tat);
-//                    break;
-//                case 2:
-//                    System.out.println("---Thong tin---");
-//                    Banner();
-//                    for (int i = 0; i < tat.size(); i++) {
-//                        tat.get(i).kiemTraHSD();
-//                        System.out.println(tat.get(i).toString());
-//                       }
-//    
-//                    break;
-//                case 3:
-//                    
-//                    System.out.println("Nhap id can tim: "); sc.nextLine();
-//                    idCanTim = sc.nextLine();
-//                    System.out.println("---Thong tin---");
-//                    Banner();
-//                    for (int i = 0; i < tat.size(); i++) {
-//                       if(tat.get(i).getIdThucAn().equals(idCanTim)){
-//                            System.out.println(tat.get(i).toString());
-//                       }
-//                    }
-//                    break;
-//                case 4:
-//                    System.out.println("Nhap id can xoa: "); sc.nextLine();
-//                    idCanXoa = sc.nextLine();
-//                    System.out.println("---Thong tin---");
-//                     for (int i = 0; i < tat.size(); i++) {
-//                       if(tat.get(i).getIdThucAn().equals(idCanXoa))
-//                            tat.remove(i);
-//                    }
-//                    break;
-//                case 5:
-//                    Banner();
-////                LoadDataTat();
-//                    
-//            }
-//        }
+
       }
     public static void MenuAddTAT()
     {
@@ -467,7 +338,6 @@ public class Login extends JFrame implements ActionListener{
                   Tat.setIdCtyNhap(StringInputCtyTAT);
                   tat.add(Tat);
 
-                  Write(tat);
                   MenuAddTat.dispose();
               }
           });
@@ -521,13 +391,17 @@ public class Login extends JFrame implements ActionListener{
     public static void init() 
     {
        Menu();
-       Read();
+       ReadTat();
+//       Load("A02");
+
+       
     }
     
      private static String Banner() {
         return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Tên Thức Ăn", "Số Lượnng", "Giá Tiền", "NSX" , "HSD", "Trạng Thái", "Kho", "Công Ty");
     }
      
+
     
 }
 
