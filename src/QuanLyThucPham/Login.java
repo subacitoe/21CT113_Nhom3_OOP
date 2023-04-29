@@ -109,12 +109,16 @@ public class Login extends JFrame implements ActionListener {
         JButton addTatBtn = new JButton("Thêm");
         addTatBtn.setBounds(1100, 50, 150, 40);
 
-        JButton DeleteTatBtn = new JButton("Xoa");
+        JButton DeleteTatBtn = new JButton("Xóa TAT");
         DeleteTatBtn.setBounds(1100, 100, 150, 40);
         menu.add(DeleteTatBtn);
 
         JButton addTadnBtn = new JButton("Thêm");
         addTadnBtn.setBounds(1290, 50, 150, 40);
+
+        JButton DeleteTADNBtn = new JButton("Xóa TADN");
+        DeleteTADNBtn.setBounds(1290, 100, 150, 40);
+        menu.add(DeleteTADNBtn);
 
         JLabel title = new JLabel("SUBACITO");
 //        title.setBounds(100, 50, 100, 30);
@@ -143,15 +147,20 @@ public class Login extends JFrame implements ActionListener {
         menu.setLocationRelativeTo(null);
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+ //nút xóa TAT 
         DeleteTatBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < tat.size(); i++) {
-                    if ("A01".equals(tat.get(i).getIdThucAn())) {
-                        tat.remove(i);
-                    }
+                DeleteTAT();
+            }
 
-                }
+        });
+
+ //nút xóa TADN
+        DeleteTADNBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DeleteTADN();
             }
 
         });
@@ -219,11 +228,11 @@ public class Login extends JFrame implements ActionListener {
         LabelHsdTAT.setBounds(VectorX / 2, VectorY * 6, 250, 30);
         MenuAddTat.add(LabelHsdTAT);
 
-        JLabel LabelKhoTAT = new JLabel("Nhiet Do Tu Dong: ");
+        JLabel LabelKhoTAT = new JLabel("Nhiệt độ tủ đông: ");
         LabelKhoTAT.setBounds(VectorX / 2, VectorY * 7, 250, 30);
         MenuAddTat.add(LabelKhoTAT);
 
-        JLabel LabelCtyTAT = new JLabel("ID Tu Dong: ");
+        JLabel LabelCtyTAT = new JLabel("ID Tủ đông: ");
         LabelCtyTAT.setBounds(VectorX / 2, VectorY * 8, 250, 30);
         MenuAddTat.add(LabelCtyTAT);
 // ========================================================================
@@ -375,7 +384,7 @@ public class Login extends JFrame implements ActionListener {
         JTextField inputNhietDoKhoTADN = new JTextField();
         inputNhietDoKhoTADN.setBounds(VectorX, VectorY * 8, 250, 30);
         MenuAddTADN.add(inputNhietDoKhoTADN);
-        
+
         JLabel LabelIdTADN = new JLabel("ID: ");
         LabelIdTADN.setBounds(VectorX / 2, VectorY * 1, 250, 30);
         MenuAddTADN.add(LabelIdTADN);
@@ -407,7 +416,7 @@ public class Login extends JFrame implements ActionListener {
         JLabel LabelNDKhoTAT = new JLabel("Nhiệt độ kho: ");
         LabelNDKhoTAT.setBounds(VectorX / 2, VectorY * 8, 250, 30);
         MenuAddTADN.add(LabelNDKhoTAT);
-        
+
         ConfirmInsertedTADN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -447,6 +456,88 @@ public class Login extends JFrame implements ActionListener {
         MenuAddTADN.setResizable(false);
         MenuAddTADN.setLocationRelativeTo(null);
 
+    }
+//Xóa TAT
+
+    public static void DeleteTAT() {
+        int VectorX = 10 * 30;
+        int VectorY = 60;
+        JFrame DeleteTAT = new JFrame("Xóa thức ăn tươi");
+
+//thêm nút xóa
+        JButton ConfirmDeletedTAT = new JButton("Xác nhận");
+        ConfirmDeletedTAT.setBounds(VectorX - 150, VectorY + 100, 100, 30);
+        DeleteTAT.add(ConfirmDeletedTAT);
+
+//thêm nhập dữ liệu
+        JTextField inputDeletelTAT = new JTextField();
+        inputDeletelTAT.setBounds(VectorX - 100, VectorY * 1, 150, 30);
+        DeleteTAT.add(inputDeletelTAT);
+
+//thêm lable
+        JLabel LabelCtyTAT = new JLabel("ID Thức ăn tươi: ");
+        LabelCtyTAT.setBounds(VectorX - 200, VectorY * 1, 250, 30);
+        DeleteTAT.add(LabelCtyTAT);
+
+        ConfirmDeletedTAT.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String StringInputDeleteIdTAT = inputDeletelTAT.getText();
+                for (int i = 0; i < tat.size(); i++) {
+                    if (tat.get(i).getIdThucAn().equals(StringInputDeleteIdTAT)) {
+                        tat.remove(i);
+                    }
+                }
+                DeleteTAT.dispose();
+            }
+        });
+
+        DeleteTAT.setSize(400, 280);
+        DeleteTAT.setLayout(null);
+        DeleteTAT.setVisible(true);
+        DeleteTAT.setResizable(false);
+        DeleteTAT.setLocationRelativeTo(null);
+    }
+
+    //Xóa TAT
+    public static void DeleteTADN() {
+        int VectorX = 10 * 30;
+        int VectorY = 60;
+        JFrame DeleteTADN = new JFrame("Xóa thức ăn dài ngày");
+
+//thêm nút xóa
+        JButton ConfirmDeletedTADN = new JButton("Xác nhận");
+        ConfirmDeletedTADN.setBounds(VectorX - 150, VectorY + 100, 100, 30);
+        DeleteTADN.add(ConfirmDeletedTADN);
+
+//thêm nhập dữ liệu
+        JTextField inputDeletelTADN = new JTextField();
+        inputDeletelTADN.setBounds(VectorX - 100, VectorY * 1, 150, 30);
+        DeleteTADN.add(inputDeletelTADN);
+
+//thêm lable
+        JLabel LabelCtyTADN = new JLabel("ID Thức ăn tươi: ");
+        LabelCtyTADN.setBounds(VectorX - 200, VectorY * 1, 250, 30);
+        DeleteTADN.add(LabelCtyTADN);
+
+        ConfirmDeletedTADN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String StringInputDeleteIdTADN = inputDeletelTADN.getText();
+                for (int i = 0; i < tadn.size(); i++) {
+                    if (tadn.get(i).getIdThucAn().equals(StringInputDeleteIdTADN)) {
+                        tadn.remove(i);
+                    }
+                }
+                DeleteTADN.dispose();
+            }
+        });
+
+        DeleteTADN.setSize(400, 280);
+        DeleteTADN.setLayout(null);
+        DeleteTADN.setVisible(true);
+        DeleteTADN.setResizable(false);
+        DeleteTADN.setLocationRelativeTo(null);
     }
 
     public static void init() {
