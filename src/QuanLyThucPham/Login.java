@@ -63,7 +63,7 @@ public class Login extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String username = tf1.getText();
         String password = tf2.getText();
-        if (username.equals("admin") && password.equals("admin")) {
+        if (username.equals("") && password.equals("")) {
             JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
             dispose();
             init();
@@ -494,55 +494,60 @@ public class Login extends JFrame implements ActionListener {
         ConfirmUpdatedTAT.setBounds(VectorX / 2, VectorY * 9, 250, 30);
         UpdateTAT.add(ConfirmUpdatedTAT);
 
+        // thêm nút check
+        JButton CheckUpdatedTAT = new JButton("Kiểm tra");
+        CheckUpdatedTAT.setBounds(VectorX / 2, VectorY - 50, 250, 30);
+        UpdateTAT.add(CheckUpdatedTAT);
+
         // thêm nhập dữ liệu
 // ========================================================================
-        JTextField inputIdTAT = new JTextField();
-        inputIdTAT.setBounds(VectorX, VectorY * 1, 250, 30);
-        UpdateTAT.add(inputIdTAT);
+        JTextField inputIdTATUpdate = new JTextField();
+        inputIdTATUpdate.setBounds(VectorX, VectorY * 1, 250, 30);
+        UpdateTAT.add(inputIdTATUpdate);
 
-        JTextField inputNameTAT = new JTextField();
-        inputNameTAT.setBounds(VectorX, VectorY * 2, 250, 30);
-        UpdateTAT.add(inputNameTAT);
+        JTextField inputNameTATUpdate = new JTextField();
+        inputNameTATUpdate.setBounds(VectorX, VectorY * 2, 250, 30);
+        UpdateTAT.add(inputNameTATUpdate);
 
-        JTextField inputSlTAT = new JTextField();
-        inputSlTAT.setBounds(VectorX, VectorY * 3, 250, 30);
-        UpdateTAT.add(inputSlTAT);
+        JTextField inputSlTATUpdate = new JTextField();
+        inputSlTATUpdate.setBounds(VectorX, VectorY * 3, 250, 30);
+        UpdateTAT.add(inputSlTATUpdate);
 
-        JTextField inputCostTAT = new JTextField();
-        inputCostTAT.setBounds(VectorX, VectorY * 4, 250, 30);
-        UpdateTAT.add(inputCostTAT);
+        JTextField inputCostTATUpdate = new JTextField();
+        inputCostTATUpdate.setBounds(VectorX, VectorY * 4, 250, 30);
+        UpdateTAT.add(inputCostTATUpdate);
 //        ===============================================================================================       
-        JTextField inputNsxTATDay = new JTextField();
-        inputNsxTATDay.setBounds(VectorX, VectorY * 5, 50, 30);
-        UpdateTAT.add(inputNsxTATDay);
+        JTextField inputNsxTATDayUpdate = new JTextField();
+        inputNsxTATDayUpdate.setBounds(VectorX, VectorY * 5, 50, 30);
+        UpdateTAT.add(inputNsxTATDayUpdate);
 
-        JTextField inputNsxTATMonth = new JTextField();
-        inputNsxTATMonth.setBounds(VectorX + 100, VectorY * 5, 50, 30);
-        UpdateTAT.add(inputNsxTATMonth);
+        JTextField inputNsxTATMonthUpdate = new JTextField();
+        inputNsxTATMonthUpdate.setBounds(VectorX + 100, VectorY * 5, 50, 30);
+        UpdateTAT.add(inputNsxTATMonthUpdate);
 
-        JTextField inputNsxTATYear = new JTextField();
-        inputNsxTATYear.setBounds(VectorX + 200, VectorY * 5, 50, 30);
-        UpdateTAT.add(inputNsxTATYear);
+        JTextField inputNsxTATYearUpdate = new JTextField();
+        inputNsxTATYearUpdate.setBounds(VectorX + 200, VectorY * 5, 50, 30);
+        UpdateTAT.add(inputNsxTATYearUpdate);
 //        ===============================================================================================      
-        JTextField inputHsdTATDay = new JTextField();
-        inputHsdTATDay.setBounds(VectorX, VectorY * 6, 50, 30);
-        UpdateTAT.add(inputHsdTATDay);
+        JTextField inputHsdTATDayUpdate = new JTextField();
+        inputHsdTATDayUpdate.setBounds(VectorX, VectorY * 6, 50, 30);
+        UpdateTAT.add(inputHsdTATDayUpdate);
 
-        JTextField inputHsdTATMonth = new JTextField();
-        inputHsdTATMonth.setBounds(VectorX + 100, VectorY * 6, 50, 30);
-        UpdateTAT.add(inputHsdTATMonth);
+        JTextField inputHsdTATMonthUpdate = new JTextField();
+        inputHsdTATMonthUpdate.setBounds(VectorX + 100, VectorY * 6, 50, 30);
+        UpdateTAT.add(inputHsdTATMonthUpdate);
 
-        JTextField inputHsdTATYear = new JTextField();
-        inputHsdTATYear.setBounds(VectorX + 200, VectorY * 6, 50, 30);
-        UpdateTAT.add(inputHsdTATYear);
+        JTextField inputHsdTATYearUpdate = new JTextField();
+        inputHsdTATYearUpdate.setBounds(VectorX + 200, VectorY * 6, 50, 30);
+        UpdateTAT.add(inputHsdTATYearUpdate);
 //        ===============================================================================================             
-        JTextField inputNhietDoTuDong = new JTextField();
-        inputNhietDoTuDong.setBounds(VectorX, VectorY * 7, 250, 30);
-        UpdateTAT.add(inputNhietDoTuDong);
+        JTextField inputNhietDoTuDongUpdate = new JTextField();
+        inputNhietDoTuDongUpdate.setBounds(VectorX, VectorY * 7, 250, 30);
+        UpdateTAT.add(inputNhietDoTuDongUpdate);
 
-        JTextField inputIDTuDong = new JTextField();
-        inputIDTuDong.setBounds(VectorX, VectorY * 8, 250, 30);
-        UpdateTAT.add(inputIDTuDong);
+        JTextField inputIDTuDongUpdate = new JTextField();
+        inputIDTuDongUpdate.setBounds(VectorX, VectorY * 8, 250, 30);
+        UpdateTAT.add(inputIDTuDongUpdate);
 
         // thêm label
         JLabel LabelIdTAT = new JLabel("ID: ");
@@ -577,36 +582,49 @@ public class Login extends JFrame implements ActionListener {
         LabelCtyTAT.setBounds(VectorX / 2, VectorY * 8, 250, 30);
         UpdateTAT.add(LabelCtyTAT);
 
+        CheckUpdatedTAT.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < tat.size(); i++) {
+                    if (inputIdTATUpdate.getText().equals(tat.get(i).getIdThucAn())) {
+                        inputNameTATUpdate.setText(tat.get(i).getTenThucAn());
+                        inputSlTATUpdate.setText(Integer.toString(tat.get(i).getSoLuong()));
+                        inputCostTATUpdate.setText(Double.toString(tat.get(i).getGiaTien()));
+
+                        inputNsxTATDayUpdate.setText(tat.get(i).getDayNsx());
+                        inputNsxTATMonthUpdate.setText(tat.get(i).getMonthNsx());
+                        inputNsxTATYearUpdate.setText(tat.get(i).getYearNsx());
+
+                        inputHsdTATDayUpdate.setText(tat.get(i).getDayHsd());
+                        inputHsdTATMonthUpdate.setText(tat.get(i).getMonthHsd());
+                        inputHsdTATYearUpdate.setText(tat.get(i).getYearHsd());
+
+                        inputNhietDoTuDongUpdate.setText(Double.toString(tat.get(i).getNhietDoTuDong()));
+                        inputIDTuDongUpdate.setText(tat.get(i).getIDTuDong());
+
+                    }
+
+                }
+            }
+        });
+
         ConfirmUpdatedTAT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String StringInputIdTAT = inputIdTAT.getText();
-                String StringInputNameTAT = inputNameTAT.getText();
-                int NumberInputSlTAT = Integer.parseInt(inputSlTAT.getText());
-                double NumerInputCostTAT = Double.parseDouble(inputCostTAT.getText());
+                for (int i = 0; i < tat.size(); i++) {
+                    if (inputIdTATUpdate.getText().equals(tat.get(i).getIdThucAn())) {
+                        tat.get(i).setTenThucAn(inputNameTATUpdate.getText());
+                        tat.get(i).setSoLuong(Integer.parseInt(inputSlTATUpdate.getText()));
+                        tat.get(i).setGiaTien(Double.parseDouble(inputCostTATUpdate.getText()));
 
-                int InputNsxTATDay = Integer.parseInt(inputNsxTATDay.getText());
-                int InputNsxTATMonth = Integer.parseInt(inputNsxTATMonth.getText());
-                int InputNsxTATYear = Integer.parseInt(inputNsxTATYear.getText());
+                        tat.get(i).setNSX(Integer.parseInt(inputNsxTATYearUpdate.getText()), Integer.parseInt(inputNsxTATMonthUpdate.getText()), Integer.parseInt(inputNsxTATDayUpdate.getText()));
+                        tat.get(i).setHSD(Integer.parseInt(inputHsdTATYearUpdate.getText()), Integer.parseInt(inputHsdTATMonthUpdate.getText()), Integer.parseInt(inputHsdTATDayUpdate.getText()));
 
-                int InputHsdTATDay = Integer.parseInt(inputHsdTATDay.getText());
-                int InputHsdTATMonth = Integer.parseInt(inputHsdTATMonth.getText());
-                int InputHsdTATYear = Integer.parseInt(inputHsdTATYear.getText());
+                        tat.get(i).setNhietDoTuDong(Double.parseDouble(inputNhietDoTuDongUpdate.getText()));
+                        tat.get(i).setIDTuDong(inputNhietDoTuDongUpdate.getText());
+                    }
 
-                double StringInputKhoTAT = Double.parseDouble(inputNhietDoTuDong.getText());
-                String StringInputCtyTAT = inputIDTuDong.getText();
-
-                ThucAnTuoi Tat = new ThucAnTuoi();
-                Tat.setIdThucAn(StringInputIdTAT);
-                Tat.setTenThucAn(StringInputNameTAT);
-                Tat.setSoLuong(NumberInputSlTAT);
-                Tat.setGiaTien(NumerInputCostTAT);
-                Tat.setNSX(InputNsxTATYear, InputNsxTATMonth, InputNsxTATDay);
-                Tat.setHSD(InputHsdTATYear, InputHsdTATMonth, InputHsdTATDay);
-                Tat.setNhietDoTuDong(StringInputKhoTAT);
-                Tat.setIDTuDong(StringInputCtyTAT);
-                tat.add(Tat);
-
+                }
                 UpdateTAT.dispose();
             }
         });
@@ -629,57 +647,62 @@ public class Login extends JFrame implements ActionListener {
         ConfirmUpdatedTADN.setBounds(VectorX / 2, VectorY * 9, 250, 30);
         UpdateTADN.add(ConfirmUpdatedTADN);
 
+        // thêm nút xác nhận
+        JButton CheckUpdatedTADN = new JButton("Kiểm tra");
+        CheckUpdatedTADN.setBounds(VectorX / 2, VectorY - 50, 250, 30);
+        UpdateTADN.add(CheckUpdatedTADN);
+
         // thêm nhập dữ liệu
 // ========================================================================
-        JTextField inputIdTADN = new JTextField();
-        inputIdTADN.setBounds(VectorX, VectorY * 1, 250, 30);
-        UpdateTADN.add(inputIdTADN);
+        JTextField inputIdTADNUpdate = new JTextField();
+        inputIdTADNUpdate.setBounds(VectorX, VectorY * 1, 250, 30);
+        UpdateTADN.add(inputIdTADNUpdate);
 
-        JTextField inputNameTADN = new JTextField();
-        inputNameTADN.setBounds(VectorX, VectorY * 2, 250, 30);
-        UpdateTADN.add(inputNameTADN);
+        JTextField inputNameTADNUpdate = new JTextField();
+        inputNameTADNUpdate.setBounds(VectorX, VectorY * 2, 250, 30);
+        UpdateTADN.add(inputNameTADNUpdate);
 
-        JTextField inputSlTADN = new JTextField();
-        inputSlTADN.setBounds(VectorX, VectorY * 3, 250, 30);
-        UpdateTADN.add(inputSlTADN);
+        JTextField inputSlTADNUpdate = new JTextField();
+        inputSlTADNUpdate.setBounds(VectorX, VectorY * 3, 250, 30);
+        UpdateTADN.add(inputSlTADNUpdate);
 
-        JTextField inputCostTADN = new JTextField();
-        inputCostTADN.setBounds(VectorX, VectorY * 4, 250, 30);
-        UpdateTADN.add(inputCostTADN);
+        JTextField inputCostTADNUpdate = new JTextField();
+        inputCostTADNUpdate.setBounds(VectorX, VectorY * 4, 250, 30);
+        UpdateTADN.add(inputCostTADNUpdate);
 
         //===============================================================================================       
-        JTextField inputNsxTADNDay = new JTextField();
-        inputNsxTADNDay.setBounds(VectorX, VectorY * 5, 50, 30);
-        UpdateTADN.add(inputNsxTADNDay);
+        JTextField inputNsxTADNDayUpdate = new JTextField();
+        inputNsxTADNDayUpdate.setBounds(VectorX, VectorY * 5, 50, 30);
+        UpdateTADN.add(inputNsxTADNDayUpdate);
 
-        JTextField inputNsxTADNMonth = new JTextField();
-        inputNsxTADNMonth.setBounds(VectorX + 100, VectorY * 5, 50, 30);
-        UpdateTADN.add(inputNsxTADNMonth);
+        JTextField inputNsxTADNMonthUpdate = new JTextField();
+        inputNsxTADNMonthUpdate.setBounds(VectorX + 100, VectorY * 5, 50, 30);
+        UpdateTADN.add(inputNsxTADNMonthUpdate);
 
-        JTextField inputNsxTADNYear = new JTextField();
-        inputNsxTADNYear.setBounds(VectorX + 200, VectorY * 5, 50, 30);
-        UpdateTADN.add(inputNsxTADNYear);
+        JTextField inputNsxTADNYearUpdate = new JTextField();
+        inputNsxTADNYearUpdate.setBounds(VectorX + 200, VectorY * 5, 50, 30);
+        UpdateTADN.add(inputNsxTADNYearUpdate);
         //===============================================================================================      
-        JTextField inputHsdTADNDay = new JTextField();
-        inputHsdTADNDay.setBounds(VectorX, VectorY * 6, 50, 30);
-        UpdateTADN.add(inputHsdTADNDay);
+        JTextField inputHsdTADNDayUpdate = new JTextField();
+        inputHsdTADNDayUpdate.setBounds(VectorX, VectorY * 6, 50, 30);
+        UpdateTADN.add(inputHsdTADNDayUpdate);
 
-        JTextField inputHsdTADNMonth = new JTextField();
-        inputHsdTADNMonth.setBounds(VectorX + 100, VectorY * 6, 50, 30);
-        UpdateTADN.add(inputHsdTADNMonth);
+        JTextField inputHsdTADNMonthUpdate = new JTextField();
+        inputHsdTADNMonthUpdate.setBounds(VectorX + 100, VectorY * 6, 50, 30);
+        UpdateTADN.add(inputHsdTADNMonthUpdate);
 
-        JTextField inputHsdTADNYear = new JTextField();
-        inputHsdTADNYear.setBounds(VectorX + 200, VectorY * 6, 50, 30);
-        UpdateTADN.add(inputHsdTADNYear);
+        JTextField inputHsdTADNYearUpdate = new JTextField();
+        inputHsdTADNYearUpdate.setBounds(VectorX + 200, VectorY * 6, 50, 30);
+        UpdateTADN.add(inputHsdTADNYearUpdate);
         //===============================================================================================   
 
-        JTextField inputDoAmTADN = new JTextField();
-        inputDoAmTADN.setBounds(VectorX, VectorY * 7, 250, 30);
-        UpdateTADN.add(inputDoAmTADN);
+        JTextField inputDoAmTADNUpdate = new JTextField();
+        inputDoAmTADNUpdate.setBounds(VectorX, VectorY * 7, 250, 30);
+        UpdateTADN.add(inputDoAmTADNUpdate);
 
-        JTextField inputNhietDoKhoTADN = new JTextField();
-        inputNhietDoKhoTADN.setBounds(VectorX, VectorY * 8, 250, 30);
-        UpdateTADN.add(inputNhietDoKhoTADN);
+        JTextField inputNhietDoKhoTADNUpdate = new JTextField();
+        inputNhietDoKhoTADNUpdate.setBounds(VectorX, VectorY * 8, 250, 30);
+        UpdateTADN.add(inputNhietDoKhoTADNUpdate);
 
         // thêm label
         JLabel LabelIdTADN = new JLabel("ID: ");
@@ -710,39 +733,53 @@ public class Login extends JFrame implements ActionListener {
         LabelDoAmTADN.setBounds(VectorX / 2, VectorY * 7, 250, 30);
         UpdateTADN.add(LabelDoAmTADN);
 
-        JLabel LabelNDKhoTAT = new JLabel("Nhiệt độ kho: ");
-        LabelNDKhoTAT.setBounds(VectorX / 2, VectorY * 8, 250, 30);
-        UpdateTADN.add(LabelNDKhoTAT);
+        JLabel LabelNDKhoTADN = new JLabel("Nhiệt độ kho: ");
+        LabelNDKhoTADN.setBounds(VectorX / 2, VectorY * 8, 250, 30);
+        UpdateTADN.add(LabelNDKhoTADN);
+
+        CheckUpdatedTADN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < tadn.size(); i++) {
+                    if (inputIdTADNUpdate.getText().equals(tadn.get(i).getIdThucAn())) {
+                        inputNameTADNUpdate.setText(tadn.get(i).getTenThucAn());
+                        inputSlTADNUpdate.setText(Integer.toString(tadn.get(i).getSoLuong()));
+                        inputCostTADNUpdate.setText(Double.toString(tadn.get(i).getGiaTien()));
+
+                        inputNsxTADNDayUpdate.setText(tadn.get(i).getDayNsx());
+                        inputNsxTADNMonthUpdate.setText(tadn.get(i).getMonthNsx());
+                        inputNsxTADNYearUpdate.setText(tadn.get(i).getYearNsx());
+
+                        inputHsdTADNDayUpdate.setText(tadn.get(i).getDayHsd());
+                        inputHsdTADNMonthUpdate.setText(tadn.get(i).getMonthHsd());
+                        inputHsdTADNYearUpdate.setText(tadn.get(i).getYearHsd());
+
+                        inputDoAmTADNUpdate.setText(Double.toString(tadn.get(i).getDoAm()));
+                        inputNhietDoKhoTADNUpdate.setText(Double.toString(tadn.get(i).getNhietDoKho()));
+
+                    }
+
+                }
+            }
+        });
 
         ConfirmUpdatedTADN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String StringInputIdTADN = inputIdTADN.getText();
-                String StringInputNameTADN = inputNameTADN.getText();
-                int NumberInputSlTADN = Integer.parseInt(inputSlTADN.getText());
-                double NumerInputCostTADN = Double.parseDouble(inputCostTADN.getText());
+                for (int i = 0; i < tadn.size(); i++) {
+                    if (inputIdTADNUpdate.getText().equals(tadn.get(i).getIdThucAn())) {
+                        tadn.get(i).setTenThucAn(inputNameTADNUpdate.getText());
+                        tadn.get(i).setSoLuong(Integer.parseInt(inputSlTADNUpdate.getText()));
+                        tadn.get(i).setGiaTien(Double.parseDouble(inputCostTADNUpdate.getText()));
 
-                int InputNsxTADNDay = Integer.parseInt(inputNsxTADNDay.getText());
-                int InputNsxTADNMonth = Integer.parseInt(inputNsxTADNMonth.getText());
-                int InputNsxTADNYear = Integer.parseInt(inputNsxTADNYear.getText());
+                        tadn.get(i).setNSX(Integer.parseInt(inputNsxTADNYearUpdate.getText()), Integer.parseInt(inputNsxTADNMonthUpdate.getText()), Integer.parseInt(inputNsxTADNDayUpdate.getText()));
+                        tadn.get(i).setHSD(Integer.parseInt(inputHsdTADNYearUpdate.getText()), Integer.parseInt(inputHsdTADNMonthUpdate.getText()), Integer.parseInt(inputHsdTADNDayUpdate.getText()));
 
-                int InputHsdTADNDay = Integer.parseInt(inputHsdTADNDay.getText());
-                int InputHsdTADNMonth = Integer.parseInt(inputHsdTADNMonth.getText());
-                int InputHsdTADNYear = Integer.parseInt(inputHsdTADNYear.getText());
+                        tadn.get(i).setDoAm(Double.parseDouble(inputDoAmTADNUpdate.getText()));
+                        tadn.get(i).setNhietDoKho(Double.parseDouble(inputNhietDoKhoTADNUpdate.getText()));
+                    }
 
-                double StringInputDoAmTADN = Double.parseDouble(inputDoAmTADN.getText());
-                double InputNhietDoKhoTADN = Double.parseDouble(inputNhietDoKhoTADN.getText());
-
-                ThucAnDaiNgay Tadn = new ThucAnDaiNgay();
-                Tadn.setIdThucAn(StringInputIdTADN);
-                Tadn.setTenThucAn(StringInputNameTADN);
-                Tadn.setSoLuong(NumberInputSlTADN);
-                Tadn.setGiaTien(NumerInputCostTADN);
-                Tadn.setNSX(InputNsxTADNYear, InputNsxTADNMonth, InputNsxTADNDay);
-                Tadn.setHSD(InputHsdTADNYear, InputHsdTADNMonth, InputHsdTADNDay);
-                Tadn.setDoAm(StringInputDoAmTADN);
-                Tadn.setNhietDoKho(InputNhietDoKhoTADN);
-                tadn.add(Tadn);
+                }
                 UpdateTADN.dispose();
             }
         });
