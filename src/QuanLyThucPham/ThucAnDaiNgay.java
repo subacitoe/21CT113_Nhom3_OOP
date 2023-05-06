@@ -39,9 +39,22 @@ public class ThucAnDaiNgay extends ThucPham implements Serializable{
         this.NhietDoKho = NhietDoKho;
     }
 
+     public void xuatTat()
+    {
+        super.xuat();
+    }
     @Override
     public String toString() {
         return super.toString() + String.format("%30s %30s ", this.DoAm, this.NhietDoKho);
+    }
+    
+    public void input() {
+        super.input();
+        System.out.println("DoAm: ");
+        DoAm = sc.nextDouble();
+        System.out.println("NhietDoKho: ");
+        NhietDoKho = sc.nextDouble();
+ 
     }
     
     

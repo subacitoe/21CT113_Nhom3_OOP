@@ -163,19 +163,9 @@ public class ThucPham implements Serializable {
 
     }
 
-    public void input() {
-        System.out.println("Nhap ID: ");
-        idThucAn = sc.nextLine();
-        System.out.println("Nhap ten: ");
-        tenThucAn = sc.nextLine();
-        System.out.println("Nhap nsx: ");
-        setNSX(sc.nextInt(), sc.nextInt(), sc.nextInt());
-        System.out.println("Nhap hsd: ");
-        setHSD(sc.nextInt(), sc.nextInt(), sc.nextInt());
-        System.out.println("Nhap so luong:");
-        soLuong = sc.nextInt();
-        System.out.println("Nhap gia tien: ");
-        giaTien = sc.nextDouble();
+    public void xuat()
+    { 
+        System.out.println(this.tenThucAn + "\t\t" + this.soLuong + "\t\t" + this.giaTien + " * " + this.soLuong );
     }
 
     /**
@@ -188,7 +178,17 @@ public class ThucPham implements Serializable {
         String date1 = simpleDateFormat.format(nsx);
         String date2 = simpleDateFormat.format(hsd);
         return String.format("%15s %30s %30s %30s %30s %30s %30s ", this.idThucAn, this.tenThucAn, this.soLuong, this.giaTien, date1, date2, this.trangThai);
-//        return idThucAn + "\t\t" + tenThucAn +"\t\t"+ soLuong +"\t"+ giaTien +"\t"+ date1 +"\t"+ date2 + "\t" + trangThai;
+
+    }
+  
+      public void input() {
+        sc.nextLine();
+        System.out.println("Nhap ten: ");
+        tenThucAn = sc.nextLine();
+        System.out.println("Nhap so luong:");
+        soLuong = sc.nextInt();
+        System.out.println("Nhap gia tien: ");
+        giaTien = sc.nextDouble();
     }
 
 }

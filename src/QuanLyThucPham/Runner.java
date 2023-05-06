@@ -11,6 +11,6 @@ package QuanLyThucPham;
 public class Runner {
 
     public static void main(String[] args) {
-        new Login();
+        new QuanLyThucPham();
     }
 }

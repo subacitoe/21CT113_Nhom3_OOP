@@ -14,10 +14,14 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Login extends JFrame implements ActionListener {
+public class QuanLyThucPham extends JFrame implements ActionListener {
 
     static ArrayList<ThucAnTuoi> tat = new ArrayList<>();
     static ArrayList<ThucAnDaiNgay> tadn = new ArrayList<>();
+    
+//==============================================================================
+
+//==============================================================================
     static Scanner sc = new Scanner(System.in);
     JLabel l1, l2;
     JTextField tf1;
@@ -27,7 +31,7 @@ public class Login extends JFrame implements ActionListener {
 
     static JTextArea mainView;
 
-    Login() {
+    QuanLyThucPham() {
 
 //        banner Right
         int setDefaultRightX = 420;
@@ -73,6 +77,7 @@ public class Login extends JFrame implements ActionListener {
         }
     }
 
+
     public static void XuatTat() {
         mainView.setText(null);
         mainView.append(BannerTat() + "\n");
@@ -90,6 +95,8 @@ public class Login extends JFrame implements ActionListener {
             mainView.append(tadn.get(i).toString() + "\n");
         }
     }
+
+  
 
     public static void Menu() {
         int n = 0;
@@ -128,16 +135,17 @@ public class Login extends JFrame implements ActionListener {
         UpdateTADNBtn.setBounds(1290, 150, 150, 40);
         menu.add(UpdateTADNBtn);
 
+        JButton CreateBill = new JButton("Hóa Đơn");
+        CreateBill.setBounds(1100, 200, 150, 40);
+        menu.add(CreateBill);
+
         JLabel title = new JLabel("SUBACITO");
-//        title.setBounds(100, 50, 100, 30);
 
         mainView = new JTextArea("", 5, 50);
         JScrollPane scrollPane = new JScrollPane(mainView);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(1080, 600));
         mainView.setEditable(false);
-//        mainView.setBounds(1000, 150, 1050, 30);
-//        mainView.append(BannerTat()+"\n");
         mainView.setLineWrap(true);
         mainView.setWrapStyleWord(true);
         menu.add(title);
@@ -219,7 +227,16 @@ public class Login extends JFrame implements ActionListener {
                 XuatTadn();
             }
         });
+        // Nút tạo bill
+        CreateBill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                  XuLyHoaDon();
+            }
+        });
     }
+
 
     public static void MenuAddTAT() {
         int VectorX = 10 * 30;
@@ -874,11 +891,41 @@ public class Login extends JFrame implements ActionListener {
     }
 
     public static void init() {
+
+        DataBaseTat();
         Menu();
         XuatTat();
-
     }
+    public static void XuLyHoaDon()
+    {
+        ListHoaDon listHoaDon= new ListHoaDon();
+        int ch=-1;
+        int SoLuongThucAn = 0;
+        boolean state = true;
+        while(state)
+        {
+            System.out.println("\n\t\t\t\t=========== Danh Sach Hoa Don ===========");
+            System.out.println("\t\t\t\t1. Nhap Hoa Don");
+            System.out.println("\t\t\t\t2. Xuat Hoa Don");
+            System.out.println("\t\t\t\t3. Thoat");
 
+            ch = sc.nextInt();
+            switch (ch) {
+                case 1: 
+                    System.out.println("So Luong Thuc An: "); SoLuongThucAn = sc.nextInt();
+                    listHoaDon.NhapDS(1,1,SoLuongThucAn); 
+                    break;
+                    
+                case 2: 
+                    listHoaDon.XuatDS();    
+                    break;
+                case 3: state = false; break;
+            }
+        }
+        
+        
+    }
+     
     private static String BannerTat() {
         return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Tên Thức Ăn", "Số Lượnng", "Giá Tiền", "NSX", "HSD", "Trạng Thái", "Nhiệt độ tủ đông", "ID Tủ Đông");
     }
@@ -886,5 +933,65 @@ public class Login extends JFrame implements ActionListener {
     private static String BannerTadn() {
         return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Tên Thức Ăn", "Số Lượnng", "Giá Tiền", "NSX", "HSD", "Trạng Thái", "Độ ẩm", "Nhiệt độ kho");
     }
+    
+    //    database tat
+
+    public static void DataBaseTat() {
+        ThucAnTuoi tat1 = new ThucAnTuoi();
+        tat1.setIdThucAn("A01");
+        tat1.setTenThucAn("Ca");
+        tat1.setSoLuong(10);
+        tat1.setGiaTien(100.0);
+        tat1.setHSD(2023, 12, 1);
+        tat1.setNSX(2023, 11, 29);
+        tat1.setIDTuDong("Tu 01");
+        tat1.setNhietDoTuDong(20.0);
+        tat.add(tat1);
+//        
+        ThucAnTuoi tat2 = new ThucAnTuoi();
+        tat2.setIdThucAn("A02");
+        tat2.setTenThucAn("Tom");
+        tat2.setSoLuong(10);
+        tat2.setGiaTien(100.0);
+        tat2.setHSD(2023, 12, 1);
+        tat2.setNSX(2023, 11, 29);
+        tat2.setIDTuDong("Tu 01");
+        tat2.setNhietDoTuDong(20.0);
+        tat.add(tat2);
+//        
+        ThucAnTuoi tat3 = new ThucAnTuoi();
+        tat3.setIdThucAn("A03");
+        tat3.setTenThucAn("Muc");
+        tat3.setSoLuong(10);
+        tat3.setGiaTien(100.0);
+        tat3.setHSD(2023, 12, 1);
+        tat3.setNSX(2023, 11, 29);
+        tat3.setIDTuDong("Tu 01");
+        tat3.setNhietDoTuDong(20.0);
+        tat.add(tat3);
+//        
+        ThucAnTuoi tat4 = new ThucAnTuoi();
+        tat4.setIdThucAn("A04");
+        tat4.setTenThucAn("Luon");
+        tat4.setSoLuong(10);
+        tat4.setGiaTien(100.0);
+        tat4.setHSD(2023, 12, 1);
+        tat4.setNSX(2023, 11, 29);
+        tat4.setIDTuDong("Tu 01");
+        tat4.setNhietDoTuDong(20.0);
+        tat.add(tat4);
+//        
+        ThucAnTuoi tat5 = new ThucAnTuoi();
+        tat5.setIdThucAn("A05");
+        tat5.setTenThucAn("Cua");
+        tat5.setSoLuong(10);
+        tat5.setGiaTien(100.0);
+        tat5.setHSD(2023, 12, 1);
+        tat5.setNSX(2023, 11, 29);
+        tat5.setIDTuDong("Tu 01");
+        tat5.setNhietDoTuDong(20.0);
+        tat.add(tat5);
+    }
+//    database tadn
 
 }

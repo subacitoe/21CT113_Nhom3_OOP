@@ -5,7 +5,7 @@
 package QuanLyThucPham;
 
 import java.io.Serializable;
-
+import java.util.Scanner;
 
 
 
@@ -14,6 +14,7 @@ import java.io.Serializable;
  * @author SUBACITO
  */
 public class ThucAnTuoi extends ThucPham implements Serializable {
+    static Scanner sc = new Scanner(System.in);
     private Double NhietDoTuDong;
     private String IDTuDong; 
 
@@ -42,8 +43,15 @@ public class ThucAnTuoi extends ThucPham implements Serializable {
     public void setIDTuDong(String IDTuDong) {
         this.IDTuDong = IDTuDong;
     }
+    public void xuatTat()
+    {
+        super.xuat();
+    }
+    @Override
+    public void input() {
+        super.input();
 
-
+    }
    @Override
    public String toString()
    {
