@@ -177,7 +177,7 @@ public class ThucPham implements Serializable {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String date1 = simpleDateFormat.format(nsx);
         String date2 = simpleDateFormat.format(hsd);
-        return String.format("%15s %30s %30s %30s %30s %30s %30s ", this.idThucAn, this.tenThucAn, this.soLuong, this.giaTien, date1, date2, this.trangThai);
+        return "  "+ this.idThucAn +"\t"+ this.tenThucAn+"\t"+ this.soLuong+"\t"+ this.giaTien+"\t"+ date1+"\t"+ date2+"\t"+ this.trangThai;
 
     }
   

@@ -32,6 +32,12 @@ public class ListThucPham{
                 listTP.add(x);
             }
     }
+    public int getSoLuongHere(int index){
+        return listTP.get(index).getSoLuong();
+    }
+      public String getTenThucAnHere(int index){
+        return listTP.get(index).getTenThucAn();
+    }
     
     public double Total()
     {

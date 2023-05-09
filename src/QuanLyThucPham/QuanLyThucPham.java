@@ -28,6 +28,7 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
 
     static ArrayList<ThucAnTuoi> tat = new ArrayList<>();
     static ArrayList<ThucAnDaiNgay> tadn = new ArrayList<>();
+    static ArrayList<Bill> listHoaDon = new ArrayList<>();
 
 //==============================================================================
 //==============================================================================
@@ -63,7 +64,7 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
         // Tạo combobox để chọn quyền truy cập
         JLabel accessLabel = new JLabel("Quyền truy cập:");
         add(accessLabel);
-        accessComboBox = new JComboBox<String>(new String[]{"Người dùng", "Quản trị viên"});
+        accessComboBox = new JComboBox<String>(new String[]{"Nhân viên", "Quản trị viên"});
         add(accessComboBox);
 
         // Tạo nút đăng nhập và gắn hàm xử lý sự kiện cho nút này
@@ -127,7 +128,7 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
 
             // Register user
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("src\\QuanLyThucPham\\users.txt", true))) {
-                writer.write(username + "," + password);
+                writer.write(username + "//" + password);
                 writer.newLine();
                 JOptionPane.showMessageDialog(this, "Đăng Ký Thành Công");
                 usernameField.setText("");
@@ -151,7 +152,7 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
             try (BufferedReader reader = new BufferedReader(new FileReader("src\\QuanLyThucPham\\users.txt"))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(",");
+                    String[] parts = line.split("//");
                     if (parts.length == 2 && parts[0].equals(username) && parts[1].equals(password)) {
                         found = true;
                         break;
@@ -1000,42 +1001,80 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
         XuatTat();
     }
 
-    public static void XuLyHoaDon() {
-        ListHoaDon listHoaDon = new ListHoaDon();
-        int ch = -1;
+     public static void XuLyHoaDon()
+    {
+//        listHoaDon listHoaDon = new listHoaDon();
+        int ch=-1;
         int SoLuongThucAn = 0;
         boolean state = true;
-        while (state) {
+        while(state)
+        {
             System.out.println("\n\t\t\t\t=========== Danh Sach Hoa Don ===========");
             System.out.println("\t\t\t\t1. Nhap Hoa Don");
             System.out.println("\t\t\t\t2. Xuat Hoa Don");
             System.out.println("\t\t\t\t3. Thoat");
-
+            
             ch = sc.nextInt();
             switch (ch) {
-                case 1:
-                    System.out.println("So Luong Thuc An: ");
-                    SoLuongThucAn = sc.nextInt();
-                    listHoaDon.NhapDS(1, 1, SoLuongThucAn);
+                case 1: 
+                    System.out.println("So Luong Thuc An: "); SoLuongThucAn = sc.nextInt();
+                    inputDSHD(1,1,SoLuongThucAn); 
                     break;
-
-                case 2:
-                    listHoaDon.XuatDS();
+                    
+                case 2: 
+//                    System.out.println("So luong thuc an da nhap: " + SoLuongThucAn);
+                    UpdateTP(SoLuongThucAn);   
                     break;
-                case 3:
-                    state = false;
-                    break;
+                case 3: state = false; break;
             }
         }
+           
+    }
+     
+     public static void inputDSHD(int countDSHD, int countHD, int countTA){
+        for(int i = 0; i < countDSHD; i++)
+        {
+            Bill hoaDon = new Bill();
+            hoaDon.nhapHD(countHD, countTA);
+            listHoaDon.add(hoaDon);            
+        }
+    }
 
+    public static void UpdateTP(int SoLuongThucAn){
+     
+        for(int j = 0; j < listHoaDon.size(); j++)
+        {
+            if(!"Thanh Cong".equals(listHoaDon.get(j).getTrangThai()))
+            {
+                for(int e = 0; e < SoLuongThucAn; e++)
+                {
+                    System.out.println("So Luong thu " + (e+1) + ": "  + listHoaDon.get(j).getSoLuongBill_tp(e));
+
+        //                Thức ăn tươi
+                    for(int k = 0; k < tat.size(); k++)
+                    {
+        //                    Check so luong va tu dong tru vao tat
+                        if( tat.get(k).getTenThucAn().equals(listHoaDon.get(j).getTenThucAnBill_tp(e))  &&  tat.get(k).getSoLuong() - listHoaDon.get(j).getSoLuongBill_tp(e) >= 0)
+                        {
+                            tat.get(k).setSoLuong(tat.get(k).getSoLuong() - listHoaDon.get(j).getSoLuongBill_tp(e)); 
+                                
+                        }
+                    }         
+                }
+                listHoaDon.get(j).setTrangThai("Thanh Cong");
+            }
+    
+            listHoaDon.get(j).xuatHD();
+        }
+        
     }
 
     private static String BannerTat() {
-        return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Tên Thức Ăn", "Số Lượnng", "Giá Tiền", "NSX", "HSD", "Trạng Thái", "Nhiệt độ tủ đông", "ID Tủ Đông");
+        return "  " + "ID" +"\t"+ "Tên Thức Ăn"+ "\t"+ "Số Lượnng"+"\t"+ "Giá Tiền"+"\t"+ "NSX"+"\t"+ "HSD"+"\t"+ "Trạng Thái"+"\t"+ "Nhiệt độ tủ đông"+"\t"+ "ID Tủ Đông";
     }
 
-    private static String BannerTadn() {
-        return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Tên Thức Ăn", "Số Lượnng", "Giá Tiền", "NSX", "HSD", "Trạng Thái", "Độ ẩm", "Nhiệt độ kho");
+   private static String BannerTadn() {
+        return "  " + "ID"+"\t"+"Tên Thức Ăn"+"\t"+"Số Lượnng"+"\t"+ "Giá Tiền"+"\t"+ "NSX"+"\t"+ "HSD"+"\t"+"Trạng Thái"+"\t"+"Độ ẩm"+"\t"+ "Nhiệt độ kho";
     }
 
     //    database tat

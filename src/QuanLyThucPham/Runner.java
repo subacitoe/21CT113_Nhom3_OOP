@@ -11,7 +11,7 @@ package QuanLyThucPham;
 public class Runner {
 
     public static void main(String[] args) {
-        new QuanLyThucPham();
+//        new QuanLyThucPham();
         QuanLyThucPham window = new QuanLyThucPham();
         window.setVisible(true);
     }
