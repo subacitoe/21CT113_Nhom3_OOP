@@ -13,71 +13,177 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.*;
 
 public class QuanLyThucPham extends JFrame implements ActionListener {
 
     static ArrayList<ThucAnTuoi> tat = new ArrayList<>();
     static ArrayList<ThucAnDaiNgay> tadn = new ArrayList<>();
-    
-//==============================================================================
 
 //==============================================================================
+//==============================================================================
     static Scanner sc = new Scanner(System.in);
-    JLabel l1, l2;
-    JTextField tf1;
-    JPasswordField tf2;
-    JButton btn1;
-    JFrame Menu;
+    private JLabel l1, l2;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JComboBox<String> accessComboBox;
+    private JButton loginButton, registerButton;
+    private JFrame Menu;
 
     static JTextArea mainView;
 
-    QuanLyThucPham() {
+    public QuanLyThucPham() {
 
-//        banner Right
-        int setDefaultRightX = 420;
-        int setDefaultRightY = 145;
-//        banner Left
-
-        l1 = new JLabel("Tên đăng nhập: ");
-        l1.setBounds(setDefaultRightX - 100, setDefaultRightY + 50, 100, 30);
-        l2 = new JLabel("Mật khẩu: ");
-        l2.setBounds(setDefaultRightX - 100, setDefaultRightY + 100, 100, 30);
-        tf1 = new JTextField();
-
-        tf1.setBounds(setDefaultRightX, setDefaultRightY + 50, 250, 30);
-        tf2 = new JPasswordField();
-        tf2.setBounds(setDefaultRightX, setDefaultRightY + 100, 250, 30);
-        btn1 = new JButton("Đăng nhập");
-        btn1.setBounds(setDefaultRightX, setDefaultRightY + 150, 250, 50);
-        btn1.addActionListener(this);
-        add(l1);
-        add(tf1);
-        add(l2);
-        add(tf2);
-        add(btn1);
-        setSize(750, 577);
-        setLayout(null);
-        setVisible(true);
-        setResizable(false);
+        super("Đăng nhập hoặc đăng ký");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 200);
         setLocationRelativeTo(null);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Tạo label và field để nhập tên người dùng
+        JLabel usernameLabel = new JLabel("Tên người dùng:");
+        add(usernameLabel);
+        usernameField = new JTextField(10);
+        add(usernameField);
+
+        // Tạo label và field để nhập mật khẩu
+        JLabel passwordLabel = new JLabel("Mật khẩu:");
+        add(passwordLabel);
+        passwordField = new JPasswordField(10);
+        add(passwordField);
+
+        // Tạo combobox để chọn quyền truy cập
+        JLabel accessLabel = new JLabel("Quyền truy cập:");
+        add(accessLabel);
+        accessComboBox = new JComboBox<String>(new String[]{"Người dùng", "Quản trị viên"});
+        add(accessComboBox);
+
+        // Tạo nút đăng nhập và gắn hàm xử lý sự kiện cho nút này
+        loginButton = new JButton("Đăng nhập");
+        add(loginButton);
+        loginButton.addActionListener(this);
+
+        // Tạo nút đăng ký và gắn hàm xử lý sự kiện cho nút này
+        registerButton = new JButton("Đăng ký");
+        add(registerButton);
+        registerButton.addActionListener(this);
+
+        // Tạo GroupLayout và thiết lập các thành phần vào layout
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(usernameLabel)
+                        .addComponent(passwordLabel)
+                        .addComponent(accessLabel))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(usernameField)
+                        .addComponent(passwordField)
+                        .addComponent(accessComboBox)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(loginButton)
+                                .addComponent(registerButton)))
+        );
+
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(usernameLabel)
+                        .addComponent(usernameField))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(passwordLabel)
+                        .addComponent(passwordField))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(accessLabel)
+                        .addComponent(accessComboBox))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(loginButton)
+                        .addComponent(registerButton))
+        );
+
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
-        String username = tf1.getText();
-        String password = tf2.getText();
-        if (username.equals("") && password.equals("")) {
-            JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-            dispose();
-            init();
+        if (e.getSource() == registerButton) {
+            String username = usernameField.getText().trim();
+            String password = new String(passwordField.getPassword()).trim();
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
+            // Check if fields are empty
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập cả tên đăng nhập và mật khẩu.");
+                return;
+            }
+
+            // Register user
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("src\\QuanLyThucPham\\users.txt", true))) {
+                writer.write(username + "," + password);
+                writer.newLine();
+                JOptionPane.showMessageDialog(this, "Đăng Ký Thành Công");
+                usernameField.setText("");
+                passwordField.setText("");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi đăng ký người dùng: " + ex.getMessage());
+            }
+
+        } else if (e.getSource() == loginButton) {
+            String username = usernameField.getText().trim();
+            String password = new String(passwordField.getPassword()).trim();
+
+            // Check if fields are empty
+            if (username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập cả tên đăng nhập và mật khẩu");
+                return;
+            }
+
+            // Login user
+            boolean found = false;
+            try (BufferedReader reader = new BufferedReader(new FileReader("src\\QuanLyThucPham\\users.txt"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    if (parts.length == 2 && parts[0].equals(username) && parts[1].equals(password)) {
+                        found = true;
+                        break;
+                    }
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi đăng nhập: " + ex.getMessage());
+            }
+
+            if (found) {
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+                dispose();
+                init();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
+            }
         }
     }
 
-
+//    public void actionPerformed(ActionEvent e) {
+//        String username = usernameField.getText();
+//        String password = passwordField.getText();
+//        if (username.equals("") && password.equals("")) {
+//            JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+//            dispose();
+//            init();
+//
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
+//        }
+//    }
     public static void XuatTat() {
         mainView.setText(null);
         mainView.append(BannerTat() + "\n");
@@ -95,8 +201,6 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
             mainView.append(tadn.get(i).toString() + "\n");
         }
     }
-
-  
 
     public static void Menu() {
         int n = 0;
@@ -232,11 +336,10 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                  XuLyHoaDon();
+                XuLyHoaDon();
             }
         });
     }
-
 
     public static void MenuAddTAT() {
         int VectorX = 10 * 30;
@@ -896,14 +999,13 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
         Menu();
         XuatTat();
     }
-    public static void XuLyHoaDon()
-    {
-        ListHoaDon listHoaDon= new ListHoaDon();
-        int ch=-1;
+
+    public static void XuLyHoaDon() {
+        ListHoaDon listHoaDon = new ListHoaDon();
+        int ch = -1;
         int SoLuongThucAn = 0;
         boolean state = true;
-        while(state)
-        {
+        while (state) {
             System.out.println("\n\t\t\t\t=========== Danh Sach Hoa Don ===========");
             System.out.println("\t\t\t\t1. Nhap Hoa Don");
             System.out.println("\t\t\t\t2. Xuat Hoa Don");
@@ -911,21 +1013,23 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
 
             ch = sc.nextInt();
             switch (ch) {
-                case 1: 
-                    System.out.println("So Luong Thuc An: "); SoLuongThucAn = sc.nextInt();
-                    listHoaDon.NhapDS(1,1,SoLuongThucAn); 
+                case 1:
+                    System.out.println("So Luong Thuc An: ");
+                    SoLuongThucAn = sc.nextInt();
+                    listHoaDon.NhapDS(1, 1, SoLuongThucAn);
                     break;
-                    
-                case 2: 
-                    listHoaDon.XuatDS();    
+
+                case 2:
+                    listHoaDon.XuatDS();
                     break;
-                case 3: state = false; break;
+                case 3:
+                    state = false;
+                    break;
             }
         }
-        
-        
+
     }
-     
+
     private static String BannerTat() {
         return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Tên Thức Ăn", "Số Lượnng", "Giá Tiền", "NSX", "HSD", "Trạng Thái", "Nhiệt độ tủ đông", "ID Tủ Đông");
     }
@@ -933,9 +1037,8 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
     private static String BannerTadn() {
         return String.format("%15s %30s %30s %30s %30s %30s %30s %30s %30s ", "ID", "Tên Thức Ăn", "Số Lượnng", "Giá Tiền", "NSX", "HSD", "Trạng Thái", "Độ ẩm", "Nhiệt độ kho");
     }
-    
-    //    database tat
 
+    //    database tat
     public static void DataBaseTat() {
         ThucAnTuoi tat1 = new ThucAnTuoi();
         tat1.setIdThucAn("A01");
