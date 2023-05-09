@@ -5,6 +5,7 @@
 package QuanLyThucPham;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 
@@ -57,5 +58,13 @@ public class ThucAnTuoi extends ThucPham implements Serializable {
    {
        return super.toString() + "\t" + this.NhietDoTuDong +"\t\t"+ this.IDTuDong;
    }
+
+    void setHSD(LocalDate parse) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void setNSX(LocalDate parse) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

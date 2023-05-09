@@ -109,6 +109,7 @@ public class ThucPham implements Serializable {
         String dayNSX = simpleDateFormat.format(nsx);
         return dayNSX;
     }
+    
 
     public String getMonthNsx() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM");
