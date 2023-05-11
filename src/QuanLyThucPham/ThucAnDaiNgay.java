@@ -45,7 +45,7 @@ public class ThucAnDaiNgay extends ThucPham implements Serializable{
     }
     @Override
     public String toString() {
-        return super.toString() + String.format("%30s %30s ", this.DoAm, this.NhietDoKho);
+        return super.toString() + "\t" + this.DoAm + "\t" +this.NhietDoKho;
     }
     
     public void input() {

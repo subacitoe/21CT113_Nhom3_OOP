@@ -8,6 +8,7 @@ package QuanLyThucPham;
  *
  * @author MYPC
  */
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.*;
 import java.awt.event.*;
@@ -255,10 +256,13 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
         mainView = new JTextArea("", 5, 50);
         JScrollPane scrollPane = new JScrollPane(mainView);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
         scrollPane.setPreferredSize(new Dimension(1080, 600));
         mainView.setEditable(false);
         mainView.setLineWrap(true);
         mainView.setWrapStyleWord(true);
+        mainView.setBounds(500,100,1080,600);
+        
         menu.add(title);
         menu.add(b);
         menu.add(c);
@@ -266,13 +270,15 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
         menu.add(addTadnBtn);
         menu.add(scrollPane);
         menu.pack();
-
+        
         menu.setSize(1500, 780);
         menu.setLayout(null);
         menu.setVisible(true);
         menu.setResizable(false);
+        menu.getContentPane().setBackground(new Color(153, 204, 255));
         menu.setLocationRelativeTo(null);
         menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
 
 //nút update TAT
         UpdateTatBtn.addActionListener(new ActionListener() {
@@ -598,6 +604,7 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
                 Tadn.setDoAm(StringInputDoAmTADN);
                 Tadn.setNhietDoKho(InputNhietDoKhoTADN);
                 tadn.add(Tadn);
+                UpdateTadn();
                 MenuAddTADN.dispose();
             }
         });
@@ -728,7 +735,6 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
 
                         inputNhietDoTuDongUpdate.setText(Double.toString(tat.get(i).getNhietDoTuDong()));
                         inputIDTuDongUpdate.setText(tat.get(i).getIDTuDong());
-
                     }
 
                 }
@@ -908,6 +914,7 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
                     }
 
                 }
+                UpdateTadn();
                 UpdateTADN.dispose();
             }
         });
@@ -991,6 +998,7 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
                         tadn.remove(i);
                     }
                 }
+                UpdateTadn();
                 DeleteTADN.dispose();
             }
         });
@@ -1003,6 +1011,7 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
     }
 
     public static void init() {
+        DocTadn();
         DocTat();
         Menu();
         XuatTat();
@@ -1032,7 +1041,11 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
 //                    System.out.println("So luong thuc an da nhap: " + SoLuongThucAn);
                     UpdateTP(SoLuongThucAn);   
                     break;
-                case 3: state = false; break;
+                case 3:
+                    UpdateTadn();
+                    UpdateTat();
+                    state = false; 
+                    break;
             }
         }
            
@@ -1066,7 +1079,18 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
                             tat.get(k).setSoLuong(tat.get(k).getSoLuong() - listHoaDon.get(j).getSoLuongBill_tp(e)); 
                                 
                         }
-                    }         
+                    }
+//                    Thức Ăn dài ngày
+                    for(int k = 0; k < tadn.size(); k++)
+                    {
+        //                    Check so luong va tu dong tru vao tat
+                        if( tadn.get(k).getTenThucAn().equals(listHoaDon.get(j).getTenThucAnBill_tp(e))  &&  tadn.get(k).getSoLuong() - listHoaDon.get(j).getSoLuongBill_tp(e) >= 0)
+                        {
+                            tadn.get(k).setSoLuong(tadn.get(k).getSoLuong() - listHoaDon.get(j).getSoLuongBill_tp(e)); 
+                                
+                        }
+                    }
+                    
                 }
                 listHoaDon.get(j).setTrangThai("Thanh Cong");
             }
@@ -1147,6 +1171,70 @@ public class QuanLyThucPham extends JFrame implements ActionListener {
            System.out.println("Co loi xay ra: " + ex.getMessage());
        }
        GhiTat();
+   }
+   private static void GhiTadn()
+   {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src\\QuanLyThucPham\\ThucAnDaiNgay.txt", true))) {
+             for (ThucAnDaiNgay thucAn : tadn) {
+                 String line = thucAn.getIdThucAn() + ","
+                    + thucAn.getTenThucAn() + ","
+                    + thucAn.getSoLuong() + ","
+                    + thucAn.getGiaTien() + ","
+                    + thucAn.getDayHsd() + ","
+                    + thucAn.getMonthHsd() + ","
+                    + thucAn.getYearHsd() + ","     
+                         
+                    + thucAn.getDayNsx()+ ","
+                    + thucAn.getMonthNsx()+ ","
+                    + thucAn.getYearNsx()+ ","
+                    + thucAn.getNhietDoKho()+ ","
+                    + thucAn.getDoAm();
+                    
+                writer.write(line);
+                writer.newLine();
+            }
+        } 
+        catch (IOException ex) {
+            System.out.println( ex.getMessage());
+        }
+   }
+   private static void DocTadn()
+   {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src\\QuanLyThucPham\\ThucAnDaiNgay.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(",");
+                ThucAnDaiNgay thucAn = new ThucAnDaiNgay();
+                thucAn.setIdThucAn(fields[0]);
+                thucAn.setTenThucAn(fields[1]);
+                thucAn.setSoLuong(Integer.parseInt(fields[2]));
+                thucAn.setGiaTien(Double.valueOf(fields[3]));
+                thucAn.setHSD(Integer.parseInt(fields[6]),Integer.parseInt(fields[5]),Integer.parseInt(fields[4]));
+                thucAn.setNSX(Integer.parseInt(fields[9]),Integer.parseInt(fields[8]),Integer.parseInt(fields[7]));
+                thucAn.setNhietDoKho(Double.valueOf(fields[11]));
+                thucAn.setDoAm(Double.valueOf(fields[10]));
+                tadn.add(thucAn);
+            }
+            if(tat != null )
+            {
+                System.out.println("Dữ liệu thức ăn dai ngay load thành công! ");
+            }
+            else{
+                System.out.println("Dữ liệu thức ăn dai ngay trống");
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+   }
+   private static void UpdateTadn()
+   {
+       try (BufferedWriter writer = new BufferedWriter(new FileWriter("src\\QuanLyThucPham\\ThucAnDaiNgay.txt", false))) {
+           writer.write("");
+           System.out.println("Xoa du lieu thanh cong!");
+       } catch (IOException ex) {
+           System.out.println("Co loi xay ra: " + ex.getMessage());
+       }
+       GhiTadn();
    }
 
 }
